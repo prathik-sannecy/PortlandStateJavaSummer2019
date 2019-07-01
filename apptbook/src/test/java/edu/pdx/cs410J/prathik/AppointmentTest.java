@@ -17,12 +17,6 @@ public class AppointmentTest {
   }
 
   @Test
-  public void initiallyAllAppointmentsHaveTheSameDescription() {
-    Appointment appointment = new Appointment();
-    assertThat(appointment.getDescription(), containsString("not implemented"));
-  }
-
-  @Test
   public void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
     Appointment appointment = new Appointment();
     assertThat(appointment.getBeginTime(), is(nullValue()));
@@ -34,7 +28,6 @@ public class AppointmentTest {
     assertThat(appointment.getBeginTime(), is(nullValue()));
   }
 
-
   // After you set the begin time, if get the time you get the correct time
   @Test
   public void forProject1GetBeginTimeReturnsSetBeginTime() {
@@ -43,7 +36,6 @@ public class AppointmentTest {
     appointment.setBeginTimeString(beginTime);
     assertThat(appointment.getBeginTimeString(), is(beginTime));
   }
-
 
   // If you set the hour > 24, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
@@ -142,25 +134,43 @@ public class AppointmentTest {
   }
 
 
-  // owner can be null
+  // Can't get Description if it hasn't been set yet
+  @Test(expected = WrongDescription.class)
+  public void getDescriptionNeedsToBeImplemented() {
+    Appointment appointment = new Appointment();
+    appointment.getDescription();
+  }
 
-  // if you set owner to int , you get error message
+  // Need to set a valid description
+  @Test(expected = WrongDescription.class)
+  public void forProject1CantSetNullDescription() {
+    Appointment appointment = new Appointment();
+    appointment.setDescription(null);
+  }
 
-  // Invalid option gives a list of valid options
-
-  // Description can be none
-
-  // Description can not be int
 
   // After setting description, you get back correct description
+  @Test
+  public void forProject1GetDescriptionReturnsSetDescription() {
+    Appointment appointment = new Appointment();
+    String description = "Eat Candy";
+    appointment.setDescription(description);
+    assertThat(appointment.getDescription(), is(description));
+  }
 
-  // After setting owner, you get back correct owner
+  // After you set the end time, if get the time you get the correct time
+  @Test
+  public void forProject1GetEndTimeReturnsSetEndTime() {
+    Appointment appointment = new Appointment();
+    String endTime = "7/15/2019 14:39";
+    appointment.setEndTimeString(endTime);
+    assertThat(appointment.getEndTimeString(), is(endTime));
+  }
 
-  // Only valid dates are supported
 
-  // Wrong number of command line arguments
 
-  // Empty date / time, description, etc
+
+
 
 
 }

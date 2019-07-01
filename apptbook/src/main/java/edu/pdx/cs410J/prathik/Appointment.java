@@ -8,21 +8,29 @@ import java.util.Date;
 
 public class Appointment extends AbstractAppointment {
   private String BeginTimeString = null;
+  private String EndTimeString = null;
+  private String Description = null;
+
+  @Override
+  public String getEndTimeString() {
+    if(EndTimeString != null)
+      return EndTimeString;
+    throw new UnsupportedOperationException("Please Set end date / time for appointment");
+
+  }
+
   @Override
   public String getBeginTimeString() {
     if(BeginTimeString != null)
       return BeginTimeString;
-    throw new UnsupportedOperationException("Please Set date / time for appointment");
-  }
-
-  @Override
-  public String getEndTimeString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    throw new UnsupportedOperationException("Please Set begin date / time for appointment");
   }
 
   @Override
   public String getDescription() {
-    return "This method is not implemented yet";
+    if (Description != null)
+      return Description;
+    throw new WrongDescription("Enter valid appointment description!");
   }
 
   public void setBeginTimeString(String beginTime) {
@@ -38,6 +46,20 @@ public class Appointment extends AbstractAppointment {
     BeginTimeString = beginTime;
   }
 
+  public void setEndTimeString(String endTime) {
+    boolean validDateTimeFormat = false;
+    if (checkDateFormat(endTime, "mm/dd/yyyy HH:mm")) validDateTimeFormat = true;
+    if (checkDateFormat(endTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
+    if (checkDateFormat(endTime, "mm/d/yyyy HH:mm")) validDateTimeFormat = true;
+    if (checkDateFormat(endTime, "m/d/yyyy HH:mm")) validDateTimeFormat = true;
+
+    if(!validDateTimeFormat)
+      throw new WrongDateTimeFormat("Does not follow date / time format!");
+
+
+    EndTimeString = endTime;
+  }
+
   private Boolean checkDateFormat(String date, String format){
     try {
       SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -51,4 +73,29 @@ public class Appointment extends AbstractAppointment {
     return true;
   }
 
+  public void setDescription(String description) {
+    if ((description == null) || (description == ""))
+      throw new WrongDescription("Please enter a description");
+
+    Description = description;
+  }
+
+  private Boolean checkDateOrder(String date1, String date2, String format){
+    return _checkDateOrder(date1, date2, "mm/dd/yyyy HH:mm");
+  }
+
+
+  private Boolean _checkDateOrder(String date1, String date2, String format){
+    try {
+      SimpleDateFormat formatter = new SimpleDateFormat(format);
+      Date parsedDate1 = formatter.parse(date1);
+      Date parsedDate2 = formatter.parse(date2);
+      if(parsedDate2.after(parsedDate1))
+        return true;
+
+      return false;
+    }catch (ParseException e){
+      throw new UnsupportedOperationException("Please enter dates in correct format");
+    }
+  }
 }
