@@ -89,7 +89,7 @@ public class AppointmentTest {
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckFourDigitYearFormat() {
     Appointment appointment = new Appointment();
-    String beginTime = "7/15/19 1:-1";
+    String beginTime = "7/15/19 01:01";
     appointment.setBeginTimeString(beginTime);
   }
 
@@ -97,7 +97,7 @@ public class AppointmentTest {
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckMonthGreaterThanZero() {
     Appointment appointment = new Appointment();
-    String beginTime = "/15/2019 1:70";
+    String beginTime = "7/15/2019 1:70";
     appointment.setBeginTimeString(beginTime);
   }
 

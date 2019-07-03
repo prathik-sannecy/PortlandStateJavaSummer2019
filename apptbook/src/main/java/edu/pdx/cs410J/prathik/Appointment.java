@@ -40,6 +40,14 @@ public class Appointment extends AbstractAppointment {
     if (checkDateFormat(beginTime, "mm/d/yyyy HH:mm")) validDateTimeFormat = true;
     if (checkDateFormat(beginTime, "m/d/yyyy HH:mm")) validDateTimeFormat = true;
 
+    // Make sure year is 4 digits
+    try {
+      String year = beginTime.split(" ")[0].split("/")[2];
+      if (year.length() != 4) validDateTimeFormat = false;
+    }catch (ArrayIndexOutOfBoundsException e) {
+      validDateTimeFormat = false;
+    }
+
     if(!validDateTimeFormat)
       throw new WrongDateTimeFormat("Does not follow date / time format!");
 
@@ -52,6 +60,15 @@ public class Appointment extends AbstractAppointment {
     if (checkDateFormat(endTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
     if (checkDateFormat(endTime, "mm/d/yyyy HH:mm")) validDateTimeFormat = true;
     if (checkDateFormat(endTime, "m/d/yyyy HH:mm")) validDateTimeFormat = true;
+
+    // Make sure year is 4 digits
+    try {
+      String year = endTime.split(" ")[0].split("/")[2];
+      if (year.length() != 4) validDateTimeFormat = false;
+    }catch (ArrayIndexOutOfBoundsException e) {
+      validDateTimeFormat = false;
+    }
+
 
     if(!validDateTimeFormat)
       throw new WrongDateTimeFormat("Does not follow date / time format!");

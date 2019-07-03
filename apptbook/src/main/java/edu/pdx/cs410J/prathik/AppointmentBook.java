@@ -3,16 +3,10 @@ package edu.pdx.cs410J.prathik;
 import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
 
-import java.lang.reflect.Array;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 
-public class AppointmentBook<T extends AbstractAppointment> extends AbstractAppointmentBook {
+public class AppointmentBook<T extends AbstractAppointment> extends AbstractAppointmentBook<T> {
 
     private String OwnerName = null;
     private ArrayList<T> AppointmentBook = new ArrayList<>();
@@ -33,7 +27,8 @@ public class AppointmentBook<T extends AbstractAppointment> extends AbstractAppo
     }
 
     @Override
-    public void addAppointment(AbstractAppointment abstractAppointment) {
+    public void addAppointment(T appointment)  {
+        AppointmentBook.add(appointment);
 
     }
 
