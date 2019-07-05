@@ -10,11 +10,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class AppointmentTest {
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void getBeginTimeStringNeedsToBeImplemented() {
-    Appointment appointment = new Appointment();
-    appointment.getBeginTimeString();
-  }
 
   @Test
   public void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
@@ -134,11 +129,11 @@ public class AppointmentTest {
   }
 
 
-  // Can't get Description if it hasn't been set yet
-  @Test(expected = WrongDescription.class)
+  // Get back null if description hasn't been set
+  @Test()
   public void getDescriptionNeedsToBeImplemented() {
     Appointment appointment = new Appointment();
-    appointment.getDescription();
+    assertThat(appointment.getDescription(), is(nullValue()));
   }
 
   // Need to set a valid description

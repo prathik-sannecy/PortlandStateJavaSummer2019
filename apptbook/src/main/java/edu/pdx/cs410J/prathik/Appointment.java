@@ -11,26 +11,24 @@ public class Appointment extends AbstractAppointment {
   private String EndTimeString = null;
   private String Description = null;
 
+  public Appointment(){
+    super();
+  }
+
   @Override
   public String getEndTimeString() {
-    if(EndTimeString != null)
-      return EndTimeString;
-    throw new UnsupportedOperationException("Please Set end date / time for appointment");
+    return EndTimeString;
 
   }
 
   @Override
   public String getBeginTimeString() {
-    if(BeginTimeString != null)
-      return BeginTimeString;
-    throw new UnsupportedOperationException("Please Set begin date / time for appointment");
+    return BeginTimeString;
   }
 
   @Override
   public String getDescription() {
-    if (Description != null)
-      return Description;
-    throw new WrongDescription("Enter valid appointment description!");
+    return Description;
   }
 
   public void setBeginTimeString(String beginTime) {
@@ -112,7 +110,7 @@ public class Appointment extends AbstractAppointment {
 
       return false;
     }catch (ParseException e){
-      throw new UnsupportedOperationException("Please enter dates in correct format");
+      throw new UnsupportedOperationException("Please enter dates in correct format of mm/dd/yyyy hh:mm");
     }
   }
 }

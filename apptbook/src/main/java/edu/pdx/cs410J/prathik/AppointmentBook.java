@@ -1,41 +1,45 @@
 package edu.pdx.cs410J.prathik;
 
-import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
 
 import java.util.ArrayList;
 
 
-public class AppointmentBook<T extends AbstractAppointment> extends AbstractAppointmentBook<T> {
+public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
 
     private String OwnerName = null;
-    private ArrayList<T> AppointmentBook = new ArrayList<>();
+    private ArrayList<Appointment> AppointmentBook = new ArrayList<>();
 
 
 
-    @Override
-    public String getOwnerName(){
-        if(OwnerName != null)
-            return OwnerName;
-        throw new UnsupportedOperationException("Please provide owner name");
+    public AppointmentBook(){
+        super();
+        //new AppointmentBook().toString();
     }
 
     @Override
-    public ArrayList<T> getAppointments(){
+    public String getOwnerName(){
+        return OwnerName;
+    }
+
+    @Override
+    public ArrayList<Appointment> getAppointments(){
         return AppointmentBook;
 
     }
 
     @Override
-    public void addAppointment(T appointment)  {
+    public void addAppointment(Appointment appointment)  {
         AppointmentBook.add(appointment);
 
     }
 
     public void setOwnerName(String ownerName) {
-        if ((ownerName == null) || (ownerName == ""))
+        if ((ownerName == null) || (ownerName.equals("")))
             throw new UnsupportedOperationException("Please provide owner name");
 
         OwnerName = ownerName;
     }
+
+
 }

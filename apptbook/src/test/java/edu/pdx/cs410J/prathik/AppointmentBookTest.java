@@ -16,11 +16,11 @@ public class AppointmentBookTest {
         AppointmentBook appointmentbook = new AppointmentBook();
     }
 
-    // Can't get owner if it hasn't been set yet
-    @Test(expected = UnsupportedOperationException.class)
+    // Return null value for owner name if it hasn't been set yet
+    @Test()
     public void getOwnerNeedsToBeImplemented() {
         AppointmentBook appointmentbook = new AppointmentBook();
-        appointmentbook.getOwnerName();
+        assertThat(appointmentbook.getOwnerName(), is(nullValue()));
     }
 
     // Need to set a valid description
