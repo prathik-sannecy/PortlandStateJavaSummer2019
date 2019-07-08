@@ -68,7 +68,7 @@ public class Project1IT extends InvokeMainTestCase {
    */
   @Test
   public void testInvalidCommandLineArguments() {
-    MainMethodResult result = invokeMain("\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019 14:39", "7/16/2019 14:39");
+    MainMethodResult result = invokeMain("\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019", "14:39", "7/16/2019", "14:39");
     assertThat(result.getExitCode(), equalTo(0));
   }
 
@@ -95,11 +95,22 @@ public class Project1IT extends InvokeMainTestCase {
   }
 
   /**
+   * Tests for too many argugments
+   */
+  @Test
+  public void testTooManyArguments() {
+    MainMethodResult result = invokeMain( "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39", "dummy");
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Too many arguments"));
+
+  }
+
+  /**
    * Print option provides appointment in correct format
    */
   @Test
   public void testPrintOption() {
-    MainMethodResult result = invokeMain("-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019 14:39", "7/16/2019 14:39");
+    MainMethodResult result = invokeMain("-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
     assertThat(result.getExitCode(), equalTo(0));
     assertThat(result.getTextWrittenToStandardOut(), containsString("Bob Swan Jr.'s appointment book with 1 appointments"));
     assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));

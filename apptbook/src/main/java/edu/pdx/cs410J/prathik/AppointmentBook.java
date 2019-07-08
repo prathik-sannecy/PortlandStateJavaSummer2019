@@ -19,18 +19,18 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
 
     @Override
     public String getOwnerName(){
-        return OwnerName;
+        return this.OwnerName;
     }
 
     @Override
     public ArrayList<Appointment> getAppointments(){
-        return AppointmentBook;
+        return this.AppointmentBook;
 
     }
 
     @Override
     public void addAppointment(Appointment appointment)  {
-        AppointmentBook.add(appointment);
+        this.AppointmentBook.add(appointment);
 
     }
 
@@ -38,7 +38,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         if ((ownerName == null) || (ownerName.equals("")))
             throw new UnsupportedOperationException("Please provide owner name");
 
-        OwnerName = ownerName;
+        this.OwnerName = ownerName;
     }
 
 

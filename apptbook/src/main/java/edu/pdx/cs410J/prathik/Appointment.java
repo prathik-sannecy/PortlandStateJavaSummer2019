@@ -17,18 +17,18 @@ public class Appointment extends AbstractAppointment {
 
   @Override
   public String getEndTimeString() {
-    return EndTimeString;
+    return this.EndTimeString;
 
   }
 
   @Override
   public String getBeginTimeString() {
-    return BeginTimeString;
+    return this.BeginTimeString;
   }
 
   @Override
   public String getDescription() {
-    return Description;
+    return this.Description;
   }
 
   public void setBeginTimeString(String beginTime) {
@@ -47,9 +47,9 @@ public class Appointment extends AbstractAppointment {
     }
 
     if(!validDateTimeFormat)
-      throw new WrongDateTimeFormat("Does not follow date / time format!");
+      throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm!");
 
-    BeginTimeString = beginTime;
+    this.BeginTimeString = beginTime;
   }
 
   public void setEndTimeString(String endTime) {
@@ -69,10 +69,10 @@ public class Appointment extends AbstractAppointment {
 
 
     if(!validDateTimeFormat)
-      throw new WrongDateTimeFormat("Does not follow date / time format!");
+      throw new WrongDateTimeFormat("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
 
 
-    EndTimeString = endTime;
+    this.EndTimeString = endTime;
   }
 
   private Boolean checkDateFormat(String date, String format){
@@ -92,7 +92,7 @@ public class Appointment extends AbstractAppointment {
     if ((description == null) || (description == ""))
       throw new WrongDescription("Please enter a description");
 
-    Description = description;
+    this.Description = description;
   }
 
   private Boolean checkDateOrder(String date1, String date2, String format){

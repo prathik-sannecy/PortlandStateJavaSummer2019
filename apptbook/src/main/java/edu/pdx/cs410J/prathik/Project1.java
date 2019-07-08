@@ -8,6 +8,10 @@ import edu.pdx.cs410J.AbstractAppointmentBook;
  */
 public class Project1 {
 
+  /**
+   * Main program that parses the command line, creates a
+   * <code>Appointment Book</code> with an <code>Appointment</code>.
+   */
   public static void main(String[] args) {
     //Appointment appointment = new Appointment();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     AppointmentBook appointmentbook = new AppointmentBook();
@@ -37,7 +41,7 @@ public class Project1 {
     if (READMEFlag){
       System.out.println("This program implements an appointment book. \n" +
               "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n\n" +
-              "usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>args are (in this order):\n" +
+              "args are (in this order):\n" +
               "\towner: The person whose owns the appt book\n" +
               "\tdescription: A description of the appointment\n" +
               "\tbeginTime: When the appt begins (24-hour time)\n" +
@@ -80,7 +84,17 @@ public class Project1 {
       beginTime = args[index_count++];
 //      beginTime = beginTime + args[index_count++];
     } catch (ArrayIndexOutOfBoundsException e){
-      System.err.println("Missing appointment begin time");
+      System.err.println("Missing date for appointment begin time");
+      System.err.println("Please use the -README flag to see use cases");
+      System.exit(1);
+    }
+
+    try {
+      beginTime = beginTime + " " + args[index_count++];
+//      beginTime = beginTime + args[index_count++];
+    } catch (ArrayIndexOutOfBoundsException e){
+      System.err.println("Missing time for appointment begin time");
+      System.err.println("Please use the -README flag to see use cases");
       System.exit(1);
     }
 
@@ -88,10 +102,25 @@ public class Project1 {
       endTime = args[index_count++];
 //      endTime = endTime + args[index_count++];
     } catch (ArrayIndexOutOfBoundsException e){
-      System.err.println("Missing appointment end time");
+      System.err.println("Missing date for appointment end time");
+      System.err.println("Please use the -README flag to see use cases");
       System.exit(1);
     }
 
+    try {
+      endTime = endTime + " " + args[index_count];
+//      endTime = endTime + args[index_count++];
+    } catch (ArrayIndexOutOfBoundsException e){
+      System.err.println("Missing time for appointment end time");
+      System.err.println("Please use the -README flag to see use cases");
+      System.exit(1);
+    }
+
+    if(args.length > (index_count + 1)){
+      System.err.println("Too many arguments");
+      System.err.println("Please use the -README flag to see use cases");
+      System.exit(1);
+    }
 
     appointmentbook.setOwnerName(owner);
     appointment.setDescription(description);
