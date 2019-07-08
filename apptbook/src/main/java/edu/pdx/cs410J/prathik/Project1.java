@@ -44,8 +44,8 @@ public class Project1 {
             System.out.println("This program implements an appointment book. \n" +
                     "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n\n" +
                     "args are (in this order):\n" +
-                    "\towner: The person whose owns the appt book\n" +
-                    "\tdescription: A description of the appointment\n" +
+                    "\towner: The person whose owns the appt book. Use double-quotes for multi-word\n" +
+                    "\tdescription: A description of the appointment. Use double-quotes for multi-word\n" +
                     "\tbeginTime: When the appt begins (24-hour time)\n" +
                     "\tendTime: When the appt ends (24-hour time)\n" +
                     "options are (options may appear in any order):\n" +
