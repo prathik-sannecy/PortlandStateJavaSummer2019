@@ -9,21 +9,16 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
     String textFile = "";
 
-    TextDumper() {
+    TextDumper(String textFile) {
         super();
-    }
 
-    public void SetFile(String textFile) {
         if (!CheckValidFileName(textFile))
             throw new InvalidFileName("Please provide a valid file name");
 
         this.textFile = textFile;
     }
 
-    public String GetFile() {
-        return this.textFile;
-    }
-    
+
     private boolean CheckValidFileName(String textFile){
         return !((textFile == null) || (textFile.equals("")));
     }

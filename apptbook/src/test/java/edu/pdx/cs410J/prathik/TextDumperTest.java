@@ -19,26 +19,11 @@ public class TextDumperTest {
         }
     }
 
-
-    @Test
-    public void TestCreatingTextDumperClass() {
-        TextDumper textDumper = new TextDumper();
-    }
-
-    @Test
-    public void TestSettingFileInTextDumperClass() {
-        String fileName = "file";
-        TextDumper textDumper = new TextDumper();
-        textDumper.SetFile(fileName);
-        assertThat(textDumper.GetFile(), is(fileName));
-    }
-
     // Can't set empty String File name
     @Test(expected = InvalidFileName.class)
     public void TestSettingNullFileName() {
         String fileName = "";
-        TextDumper textDumper = new TextDumper();
-        textDumper.SetFile(fileName);
+        TextDumper textDumper = new TextDumper(fileName);
     }
 
     // File gets created if it doesn't exist
@@ -46,18 +31,11 @@ public class TextDumperTest {
     public void TestCreatingFile() {
         String fileName = "file";
         DeleteFile(fileName);
-        TextDumper textDumper = new TextDumper();
-        textDumper.SetFile(fileName);
+        TextDumper textDumper = new TextDumper(fileName);
         textDumper.dump(new AppointmentBook());
         assertThat(new File(fileName).isFile(), equalTo(true));
     }
 
-    // Trying to dump into text file without setting file name first
-    @Test(expected = InvalidFileName.class)
-    public void TestDumpingIntoInvalidTextFile() {
-        TextDumper textDumper = new TextDumper();
-        textDumper.dump(new AppointmentBook());
-    }
 
     // Adding 1 entry to the dump text file
     @Test
@@ -70,8 +48,7 @@ public class TextDumperTest {
         String beginTime = "03/17/1996 03:43";
         String endTime = "03/17/1997 03:44";
 
-        TextDumper textDumper = new TextDumper();
-        textDumper.SetFile(fileName);
+        TextDumper textDumper = new TextDumper(fileName);
 
 
         appointmentbook.setOwnerName(owner);
@@ -117,8 +94,7 @@ public class TextDumperTest {
         String beginTime2 = "01/6/1946 23:43";
         String endTime2 = "05/13/4447 03:48";
 
-        TextDumper textDumper = new TextDumper();
-        textDumper.SetFile(fileName);
+        TextDumper textDumper = new TextDumper(fileName);
 
 
         appointmentbook.setOwnerName(owner);

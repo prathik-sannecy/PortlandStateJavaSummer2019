@@ -24,34 +24,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TestTextParser {
 
-    @Test
-    public void TestCreatingTextParserClass() {
-        TextParser textParser = new TextParser();
-    }
-
-    @Test
-    public void TestSettingFileInTextDumperClass() {
-        String fileName = "file";
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
-        assertThat(textParser.GetFile(), is(fileName));
-    }
-
 
 
     // Can't set empty String
     @Test(expected = InvalidFileName.class)
     public void TestSettingNullFileName() {
         String fileName = "";
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
     }
 
     @Test
     public void TestParsingNonexistingFileName() {
         String fileName = "NonExistingFile";
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         textParser.parse();
     }
 
@@ -65,17 +50,10 @@ public class TestTextParser {
         }
 
         String fileName = "EmptyFile";
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         textParser.parse();
     }
 
-    // Trying to parse  text file without setting file name first
-    @Test(expected = InvalidFileName.class)
-    public void TestDumpingIntoInvalidTextFile() {
-        TextParser textParser = new TextParser();
-        textParser.parse();
-    }
 
     // Only owner, no appointments
     @Test
@@ -95,8 +73,7 @@ public class TestTextParser {
 
         }
 
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         AppointmentBook appointmentbook = textParser.parse();
 
         assertThat(appointmentbook.getAppointments().size(), equalTo(0));
@@ -115,8 +92,7 @@ public class TestTextParser {
         TextDumperTest textDumperTest = new TextDumperTest();
         textDumperTest.TestDumpingSingleAppointment();
 
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         AppointmentBook appointmentbook = textParser.parse();
 
         assertThat(appointmentbook.getAppointments().size(), equalTo(1));
@@ -142,8 +118,7 @@ public class TestTextParser {
         TextDumperTest textDumperTest = new TextDumperTest();
         textDumperTest.TestDumpingMultipleAppointment();
 
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         AppointmentBook appointmentbook = textParser.parse();
 
         assertThat(appointmentbook.getAppointments().size(), equalTo(2));
@@ -177,8 +152,7 @@ public class TestTextParser {
 
         }
 
-        TextParser textParser = new TextParser();
-        textParser.SetFile(fileName);
+        TextParser textParser = new TextParser(fileName);
         AppointmentBook appointmentbook = textParser.parse();
 
         assertThat(appointmentbook.getAppointments().size(), equalTo(0));

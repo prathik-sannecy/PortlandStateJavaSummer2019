@@ -17,8 +17,6 @@ public class Project2{
      * <code>Appointment Book</code> with an <code>Appointment</code>.
      */
     public static void main(String[] args) throws IOException {
-        //Appointment appointment = new Appointment();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-        AppointmentBook appointmentbook = new AppointmentBook();
         Appointment appointment = new Appointment();
 
         boolean printFlag = false;
@@ -127,25 +125,37 @@ public class Project2{
             System.exit(1);
         }
 
-        // Create the appointment book with the appointment using the arguments provided
-        appointmentbook.setOwnerName(owner);
+        // Set up the newly created appointment
         appointment.setDescription(description);
         appointment.setBeginTimeString(beginTime);
         appointment.setEndTimeString(endTime);
-        appointmentbook.addAppointment(appointment);
-
-        // If the optional print flag was set, print out the contents of the appointment book
-        // and its appointments using the "toString" methods
-        if (printFlag) {
-            System.out.println(appointmentbook.toString());
-            for (Appointment eachAppointment : appointmentbook.getAppointments()) {
-                System.out.println(eachAppointment);
-            }
-        }
 
         if(textFileFlag){
+            AppointmentBook appointmentbook;
 
+            TextParser textParser = new TextParser(textFile);
+            appointmentbook = textParser.parse();
+
+            // No owner means that the appointbook file was empty / nonexisting - must create new one
+            if(appointmentbook.getOwnerName() == null) {
+                appointmentbook.setOwnerName(owner);
+            }
+            else if(!appointmentbook.getOwnerName().equals(owner)){
+                System.err.println("Owner mismatch between new appointment and existing appointment book!");
+                System.exit(1);
+            }
+            appointmentbook.addAppointment(appointment);
+
+            TextDumper textDumper = new TextDumper(textFile);
+            textDumper.dump(appointmentbook);
         }
+
+
+        // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
+        if (printFlag) {
+            System.out.println(appointment.toString());
+        }
+
 
         System.exit(0);
 

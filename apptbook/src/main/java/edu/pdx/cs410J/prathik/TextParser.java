@@ -9,25 +9,17 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
     String textFile = "";
 
-    TextParser(){
+    TextParser(String textFile){
         super();
-    }
 
-    private boolean CheckValidFileName(String textFile){
-        return !((textFile == null) || (textFile.equals("")));
-    }
-
-
-    public void SetFile(String textFile){
         if (!CheckValidFileName(textFile))
             throw new InvalidFileName("Please provide a valid file name");
-
 
         this.textFile = textFile;
     }
 
-    public String GetFile(){
-        return this.textFile;
+    private boolean CheckValidFileName(String textFile){
+        return !((textFile == null) || (textFile.equals("")));
     }
 
 

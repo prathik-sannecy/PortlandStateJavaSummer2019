@@ -121,7 +121,6 @@ public class Project2IT extends InvokeMainTestCase {
     public void testPrintOption() {
         MainMethodResult result = invokeMain("-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Bob Swan Jr.'s appointment book with 1 appointments"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
     }
 
@@ -145,7 +144,6 @@ public class Project2IT extends InvokeMainTestCase {
         DeleteFile(fileName);
         MainMethodResult result = invokeMain("-textFile", fileName, "-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Bob Swan Jr.'s appointment book with 1 appointments"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
     }
 
@@ -172,6 +170,19 @@ public class Project2IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
         assertThat(result.getExitCode(), equalTo(0));
         assertThat(new File(fileName).isFile(), equalTo(true));
+        // File contains appointment
+    }
+
+    /**
+     * texfile option adds appointment to existing appointment book
+    */
+    @Test
+    public void testTextFileOptionCreatesAdditionalAppointmentToExistingAppointmentBook() {
+        String fileName = "file";
+        MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Sleeping\"", "7/15/0019" ,"23:30", "7/26/2019", "14:49");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(new File(fileName).isFile(), equalTo(true));
+        // File contains appointment
     }
 
 
