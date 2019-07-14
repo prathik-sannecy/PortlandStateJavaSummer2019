@@ -8,6 +8,7 @@ import java.io.FileWriter;
 public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
     String textFile = "";
+
     TextDumper(){
         super();
     }
@@ -36,7 +37,7 @@ public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
         fw.write(appointmentBook.getOwnerName() + "\n");
         for(Appointment appointment : appointmentBook.getAppointments())
-            fw.write(appointment.getDescription() + " " + appointment.getBeginTimeString() + " " + appointment.getEndTimeString() + "\n");
+            fw.write(appointment.getDescription() + "\t" + appointment.getBeginTimeString() + "\t" + appointment.getEndTimeString() + "\n");
 
         fw.close();
         } catch (Exception e){
