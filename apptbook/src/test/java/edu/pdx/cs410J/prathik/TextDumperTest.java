@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Unit tests for the {@link TextDumper} class.
  */
 public class TextDumperTest {
-    private void DeleteFile(String fileName){
+    static  public void DeleteFile(String fileName){
         File f = new File(fileName);
         if(f.isFile()){
             f.delete();
@@ -33,7 +33,7 @@ public class TextDumperTest {
         assertThat(textDumper.GetFile(), is(fileName));
     }
 
-    // Can't set empty String
+    // Can't set empty String File name
     @Test(expected = InvalidFileName.class)
     public void TestSettingNullFileName() {
         String fileName = "";
@@ -55,8 +55,6 @@ public class TextDumperTest {
     // Trying to dump into text file without setting file name first
     @Test(expected = InvalidFileName.class)
     public void TestDumpingIntoInvalidTextFile() {
-        String fileName = "file";
-        DeleteFile(fileName);
         TextDumper textDumper = new TextDumper();
         textDumper.dump(new AppointmentBook());
     }

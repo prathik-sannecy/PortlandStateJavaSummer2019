@@ -174,34 +174,13 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(new File(fileName).isFile(), equalTo(true));
     }
 
-    /**
-     * texfile option puts new appointment into textfile
-    */
-    @Test
-    public void testTextFileOptionCreatesAppointment() {
-        String fileName = "file";
-        DeleteFile(fileName);
-        String appointment = "\"Eating\" 7/15/2019 14:39 7/16/2019 14:39";
-        MainMethodResult result = invokeMain("-print", "-textFile", fileName,  "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
-        assertThat(result.getExitCode(), equalTo(0));
-
-        boolean containsAppointment = false;
-
-        final Scanner scanner = new Scanner(fileName);
-        while (scanner.hasNextLine()) {
-            final String lineFromFile = scanner.nextLine();
-            if(lineFromFile.contains(appointment)) {
-                // a match!
-                containsAppointment = true;
-                break;
-            }
-        }
-
-        assertThat(containsAppointment, equalTo(true));
-    }
 
 
+    // Owner Mismatch
 
 
+    // Emtpy file
+
+    // File doesn't exist
 
 }
