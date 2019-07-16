@@ -9,27 +9,38 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
     String textFile = "";
 
+    /**
+     * Creates a new <code>TextDumper</code>
+     *
+     * @param textFile Textfile where to dump the Appointmentbook
+     */
     TextParser(String textFile){
         super();
 
         if (!CheckValidFileName(textFile))
             throw new InvalidFileName("Please provide a valid file name");
 
+
         this.textFile = textFile;
     }
 
+    /**
+     * Checks if input String is a valid file name
+     *
+     * @param textFile Textfile to see if valid name
+     */
     private boolean CheckValidFileName(String textFile){
         return !((textFile == null) || (textFile.equals("")));
     }
 
-
+    /**
+     * Loads a (valid) file into an <code>AppointmentBook</code>
+     */
     public AppointmentBook parse(){
         if (!CheckValidFileName(this.textFile))
             throw new InvalidFileName("Please provide a valid file name using SetFile method");
 
-
         File file = new File(this.textFile);
-
 
         if(!file.isFile())
             return null;
