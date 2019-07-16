@@ -5,6 +5,9 @@ import edu.pdx.cs410J.AppointmentBookDumper;
 import java.io.File;
 import java.io.FileWriter;
 
+/**
+ * This class is represents a <code>TextDumper</code>.
+ */
 public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
 
     String textFile = "";

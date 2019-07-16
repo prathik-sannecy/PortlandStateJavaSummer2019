@@ -12,9 +12,13 @@ import java.io.File;
  */
 public class Project2{
 
+    /**
+     * Prints a description of <code>Project2 program</code>
+     */
     private static void README(){
         System.out.println("This program implements an appointment book. \n" +
-                "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n\n" +
+                "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n" +
+                "Also allows to store/load all pre-existing appointments into an appointment book\n\n" +
                 "args are (in this order):\n" +
                 "\towner: The person whose owns the appt book. Use double-quotes for multi-word\n" +
                 "\tdescription: A description of the appointment. Use double-quotes for multi-word\n" +
@@ -23,14 +27,26 @@ public class Project2{
                 "options are (options may appear in any order):\n" +
                 "\t-print: Prints a description of the new appointment\n" +
                 "\t-README: Prints a README for this project and exits\n" +
+                "\t-textFile file: Where to read/write the appointment book\n" +
                 "Date and time should be in the format: mm/dd/yyyy hh:mm");
         System.exit(0);
     }
 
+    /**
+     * Prints a description of the newly added <code>Appointment</code>
+     */
     private static void print(Appointment appointment){
         System.out.println(appointment.toString());
     }
 
+    /**
+     * Loads a pre-existing (if it exists) <code>Appointmentbook</code> from <code>textFile</code>,
+     * adds the new <code>Appointment</code> to it, and saves it back
+     *
+     * @param textFile The file to load the appointmentbook, where to resave it
+     * @param owner The owner of the appointmentbook
+     * @param appointment The new appointment to add to the appointmentbook
+     */
     private static void textFile(String textFile, String owner, Appointment appointment){
         AppointmentBook appointmentbook;
 
@@ -57,7 +73,6 @@ public class Project2{
      */
     public static void main(String[] args) throws IOException {
 
-
         boolean printFlag = false;
         boolean READMEFlag = false;
         boolean textFileFlag = false;
@@ -67,7 +82,6 @@ public class Project2{
         String beginTime = "";
         String endTime = "";
         String textFile = "";
-
 
         // No arguments
         if (args.length == 0) {
@@ -100,7 +114,6 @@ public class Project2{
                 System.err.println("Missing text textFile name");
                 System.exit(1);
             }
-
         }
 
         // Retrieve all the arguments at each of the indices
@@ -157,12 +170,10 @@ public class Project2{
             textFile(textFile, owner, appointment);
         }
 
-
         // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
         if (printFlag) {
             print(appointment);
         }
-
 
         System.exit(0);
 

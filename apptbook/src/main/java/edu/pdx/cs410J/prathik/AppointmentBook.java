@@ -14,6 +14,8 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
 
     /**
      * Creates a new <code>AppointmentBook</code>
+     *
+     * @param ownerName The owner of the appointment book
      */
     public AppointmentBook(String ownerName){
         super();

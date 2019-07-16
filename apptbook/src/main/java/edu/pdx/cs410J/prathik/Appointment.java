@@ -16,6 +16,10 @@ public class Appointment extends AbstractAppointment {
 
     /**
      * Creates a new <code>Appointment</code>
+     *
+     * @param description description of the appointment
+     * @param beginTime Start time of the appointment (mm/dd/yyyy hh:mm format)
+     * @param endTime End time of the appointment (mm/dd/yyyy hh:mm format)
      */
     public Appointment(String description, String beginTime, String endTime) {
         super();
