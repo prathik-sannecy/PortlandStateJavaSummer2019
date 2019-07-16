@@ -32,7 +32,7 @@ public class TextDumperTest {
         String fileName = "file";
         DeleteFile(fileName);
         TextDumper textDumper = new TextDumper(fileName);
-        textDumper.dump(new AppointmentBook());
+        textDumper.dump(new AppointmentBook("Bob"));
         assertThat(new File(fileName).isFile(), equalTo(true));
     }
 
@@ -41,22 +41,15 @@ public class TextDumperTest {
     @Test
     public void TestDumpingSingleAppointment() {
         String fileName = "file";
-        AppointmentBook appointmentbook = new AppointmentBook();
-        Appointment appointment = new Appointment();
         String owner = "Bob";
         String description = "eating burger";
         String beginTime = "03/17/1996 03:43";
         String endTime = "03/17/1997 03:44";
-
-        TextDumper textDumper = new TextDumper(fileName);
-
-
-        appointmentbook.setOwnerName(owner);
-        appointment.setDescription(description);
-        appointment.setBeginTimeString(beginTime);
-        appointment.setEndTimeString(endTime);
+        Appointment appointment = new Appointment(description, beginTime, endTime);
+        AppointmentBook appointmentbook = new AppointmentBook("Bob");
         appointmentbook.addAppointment(appointment);
 
+        TextDumper textDumper = new TextDumper(fileName);
         textDumper.dump(appointmentbook);
 
         File file = new File(fileName);
@@ -82,9 +75,6 @@ public class TextDumperTest {
     @Test
     public void TestDumpingMultipleAppointment() {
         String fileName = "file";
-        AppointmentBook appointmentbook = new AppointmentBook();
-        Appointment appointment1 = new Appointment();
-        Appointment appointment2 = new Appointment();
         String owner = "Bob";
         String description1 = "eating burger";
         String beginTime1 = "03/17/1996 03:43";
@@ -97,14 +87,10 @@ public class TextDumperTest {
         TextDumper textDumper = new TextDumper(fileName);
 
 
-        appointmentbook.setOwnerName(owner);
-        appointment1.setDescription(description1);
-        appointment1.setBeginTimeString(beginTime1);
-        appointment1.setEndTimeString(endTime1);
+        AppointmentBook appointmentbook = new AppointmentBook(owner);
+        Appointment appointment1 = new Appointment(description1, beginTime1, endTime1);
         appointmentbook.addAppointment(appointment1);
-        appointment2.setDescription(description2);
-        appointment2.setBeginTimeString(beginTime2);
-        appointment2.setEndTimeString(endTime2);
+        Appointment appointment2 = new Appointment(description2, beginTime2, endTime2);
         appointmentbook.addAppointment(appointment2);
 
         textDumper.dump(appointmentbook);

@@ -17,8 +17,11 @@ public class Appointment extends AbstractAppointment {
     /**
      * Creates a new <code>Appointment</code>
      */
-    public Appointment() {
+    public Appointment(String description, String beginTime, String endTime) {
         super();
+        this.setDescription(description);
+        this.setBeginTimeString(beginTime);
+        this.setEndTimeString(endTime);
     }
 
     /**
@@ -36,7 +39,7 @@ public class Appointment extends AbstractAppointment {
      *
      * @param endTime The time at which the appointment will end (mm/dd/yyyy hh:mm format)
      */
-    public void setEndTimeString(String endTime) {
+    private void setEndTimeString(String endTime) {
         boolean validDateTimeFormat = false;
         if (checkDateFormat(endTime, "mm/dd/yyyy HH:mm")) validDateTimeFormat = true;
         if (checkDateFormat(endTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
@@ -71,7 +74,7 @@ public class Appointment extends AbstractAppointment {
      *
      * @param beginTime The time at which the appointment will begin (mm/dd/yyyy hh:mm format)
      */
-    public void setBeginTimeString(String beginTime) {
+    private void setBeginTimeString(String beginTime) {
         boolean validDateTimeFormat = false;
         if (checkDateFormat(beginTime, "mm/dd/yyyy HH:mm")) validDateTimeFormat = true;
         if (checkDateFormat(beginTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
@@ -106,7 +109,7 @@ public class Appointment extends AbstractAppointment {
      *
      * @param description The description of the appointment
      */
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         if ((description == null) || (description == ""))
             throw new WrongDescription("Please enter a description");
 

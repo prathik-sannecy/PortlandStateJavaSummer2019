@@ -13,10 +13,6 @@ public class Project1 {
      * <code>Appointment Book</code> with an <code>Appointment</code>.
      */
     public static void main(String[] args) {
-        //Appointment appointment = new Appointment();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-        AppointmentBook appointmentbook = new AppointmentBook();
-        Appointment appointment = new Appointment();
-
         boolean printFlag = false;
         boolean READMEFlag = false;
         int index_count = 0;
@@ -111,10 +107,8 @@ public class Project1 {
         }
 
         // Create the appointment book with the appointment using the arguments provided
-        appointmentbook.setOwnerName(owner);
-        appointment.setDescription(description);
-        appointment.setBeginTimeString(beginTime);
-        appointment.setEndTimeString(endTime);
+        AppointmentBook appointmentbook = new AppointmentBook(owner);
+        Appointment appointment = new Appointment(description, beginTime, endTime);
         appointmentbook.addAppointment(appointment);
 
         // If the optional print flag was set, print out the contents of the appointment book

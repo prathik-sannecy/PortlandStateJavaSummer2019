@@ -15,8 +15,9 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     /**
      * Creates a new <code>AppointmentBook</code>
      */
-    public AppointmentBook(){
+    public AppointmentBook(String ownerName){
         super();
+        this.setOwnerName(ownerName);
     }
 
     /**
@@ -52,7 +53,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
      *
      * @param ownerName The owner of the AppointmentBook
      */
-    public void setOwnerName(String ownerName) {
+    private void setOwnerName(String ownerName) {
         if ((ownerName == null) || (ownerName.equals("")))
             throw new UnsupportedOperationException("Please provide owner name");
 

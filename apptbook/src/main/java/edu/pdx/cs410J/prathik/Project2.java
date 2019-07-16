@@ -8,16 +8,55 @@ import java.io.File;
 
 
 /**
- * The main class for the CS410J appointment book Project
+ * The main class for the CS410J appointment book Project2
  */
 public class Project2{
 
+    private static void README(){
+        System.out.println("This program implements an appointment book. \n" +
+                "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n\n" +
+                "args are (in this order):\n" +
+                "\towner: The person whose owns the appt book. Use double-quotes for multi-word\n" +
+                "\tdescription: A description of the appointment. Use double-quotes for multi-word\n" +
+                "\tbeginTime: When the appt begins (24-hour time)\n" +
+                "\tendTime: When the appt ends (24-hour time)\n" +
+                "options are (options may appear in any order):\n" +
+                "\t-print: Prints a description of the new appointment\n" +
+                "\t-README: Prints a README for this project and exits\n" +
+                "Date and time should be in the format: mm/dd/yyyy hh:mm");
+        System.exit(0);
+    }
+
+    private static void print(Appointment appointment){
+        System.out.println(appointment.toString());
+    }
+
+    private static void textFile(String textFile, String owner, Appointment appointment){
+        AppointmentBook appointmentbook;
+
+        TextParser textParser = new TextParser(textFile);
+        appointmentbook = textParser.parse();
+
+        // No owner means that the appointbook file was nonexisting - must create new one
+        if(appointmentbook == null) {
+            appointmentbook = new AppointmentBook(owner);
+        }
+        else if(!appointmentbook.getOwnerName().equals(owner)){
+            System.err.println("Owner mismatch between new appointment and existing appointment book!");
+            System.exit(1);
+        }
+        appointmentbook.addAppointment(appointment);
+
+        TextDumper textDumper = new TextDumper(textFile);
+        textDumper.dump(appointmentbook);
+    }
+
     /**
-     * Main program that parses the command line, creates a
-     * <code>Appointment Book</code> with an <code>Appointment</code>.
+     * Main program that parses the command line, creates and adds <code>Appointment</code> to
+     * <code>Appointment Book</code> . Can also save and retrieve previous appointments from file specified
      */
     public static void main(String[] args) throws IOException {
-        Appointment appointment = new Appointment();
+
 
         boolean printFlag = false;
         boolean READMEFlag = false;
@@ -43,18 +82,7 @@ public class Project2{
 
         // If Readme, print readme and exit
         if (READMEFlag) {
-            System.out.println("This program implements an appointment book. \n" +
-                    "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n\n" +
-                    "args are (in this order):\n" +
-                    "\towner: The person whose owns the appt book. Use double-quotes for multi-word\n" +
-                    "\tdescription: A description of the appointment. Use double-quotes for multi-word\n" +
-                    "\tbeginTime: When the appt begins (24-hour time)\n" +
-                    "\tendTime: When the appt ends (24-hour time)\n" +
-                    "options are (options may appear in any order):\n" +
-                    "\t-print: Prints a description of the new appointment\n" +
-                    "\t-README: Prints a README for this project and exits\n" +
-                    "Date and time should be in the format: mm/dd/yyyy hh:mm");
-            System.exit(0);
+            README();
         }
 
         // If Print flag is there, increment the argument index count
@@ -92,68 +120,47 @@ public class Project2{
         try {
             beginTime = args[index_count++];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Missing date for appointment begin time");
-            System.err.println("Please use the -README flag to see use cases");
+            System.err.println("Missing date for appointment begin time\nPlease use the -README flag to see use cases");
             System.exit(1);
         }
         try {
             beginTime = beginTime + " " + args[index_count++];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Missing time for appointment begin time");
-            System.err.println("Please use the -README flag to see use cases");
+            System.err.println("Missing time for appointment begin time\nPlease use the -README flag to see use cases");
             System.exit(1);
         }
         try {
             endTime = args[index_count++];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Missing date for appointment end time");
-            System.err.println("Please use the -README flag to see use cases");
+            System.err.println("Missing date for appointment end time\nPlease use the -README flag to see use cases");
             System.exit(1);
         }
         try {
             endTime = endTime + " " + args[index_count];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Missing time for appointment end time");
-            System.err.println("Please use the -README flag to see use cases");
+            System.err.println("Missing time for appointment end time\nPlease use the -README flag to see use cases");
             System.exit(1);
         }
 
         // If too many arguments, throw an error
         if (args.length > (index_count + 1)) {
-            System.err.println("Too many arguments");
-            System.err.println("Please use the -README flag to see use cases");
+            System.err.println("Too many arguments\nPlease use the -README flag to see use case");
             System.exit(1);
         }
 
         // Set up the newly created appointment
-        appointment.setDescription(description);
-        appointment.setBeginTimeString(beginTime);
-        appointment.setEndTimeString(endTime);
+        Appointment appointment = new Appointment(description, beginTime, endTime);
 
+        //If optional textFile flag was set, read in/create new existing appointmentbook from the file.
+        // Then add the appointment to it, and write the appointmentbook back to the file
         if(textFileFlag){
-            AppointmentBook appointmentbook;
-
-            TextParser textParser = new TextParser(textFile);
-            appointmentbook = textParser.parse();
-
-            // No owner means that the appointbook file was empty / nonexisting - must create new one
-            if(appointmentbook.getOwnerName() == null) {
-                appointmentbook.setOwnerName(owner);
-            }
-            else if(!appointmentbook.getOwnerName().equals(owner)){
-                System.err.println("Owner mismatch between new appointment and existing appointment book!");
-                System.exit(1);
-            }
-            appointmentbook.addAppointment(appointment);
-
-            TextDumper textDumper = new TextDumper(textFile);
-            textDumper.dump(appointmentbook);
+            textFile(textFile, owner, appointment);
         }
 
 
         // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
         if (printFlag) {
-            System.out.println(appointment.toString());
+            print(appointment);
         }
 
 

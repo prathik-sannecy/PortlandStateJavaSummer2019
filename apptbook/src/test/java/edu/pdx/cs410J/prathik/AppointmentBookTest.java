@@ -13,30 +13,22 @@ public class AppointmentBookTest {
 
     @Test
     public void forProject1CreateAppointmentBook() {
-        AppointmentBook appointmentbook = new AppointmentBook();
+        AppointmentBook appointmentbook = new AppointmentBook("Bob");
     }
 
-    // Return null value for owner name if it hasn't been set yet
-    @Test()
-    public void getOwnerNeedsToBeImplemented() {
-        AppointmentBook appointmentbook = new AppointmentBook();
-        assertThat(appointmentbook.getOwnerName(), is(nullValue()));
-    }
 
     // Need to set a valid description
     @Test(expected = UnsupportedOperationException.class)
     public void forProject1CantSetNullOwner() {
-        AppointmentBook appointmentbook = new AppointmentBook();
-        appointmentbook.setOwnerName(null);
+        AppointmentBook appointmentbook = new AppointmentBook(null);
     }
 
 
     // After setting description, you get back correct description
     @Test
     public void forProject1GetOwnerReturnsSetOwner() {
-        AppointmentBook appointmentbook = new AppointmentBook();
         String ownerName = "Bob";
-        appointmentbook.setOwnerName(ownerName);
+        AppointmentBook appointmentbook = new AppointmentBook(ownerName);
         assertThat(appointmentbook.getOwnerName(), is(ownerName));
     }
 
@@ -45,19 +37,17 @@ public class AppointmentBookTest {
     // make sure intialized Appointment Book returns empty list
     @Test
     public void forProject1ReturnEmptyBook() {
-        AppointmentBook appointmentbook = new AppointmentBook();
         String ownerName = "Bob";
+        AppointmentBook appointmentbook = new AppointmentBook(ownerName);
         assertThat(appointmentbook.getAppointments().isEmpty(), is(true));
     }
 
     // After adding an appointment, you get back the appointment
     @Test
     public void forProject1ReturnSameAppointmentAdded() {
-        AppointmentBook appointmentbook = new AppointmentBook();
-        Appointment appointment = new Appointment();
-        appointment.setDescription("Test");
-        appointment.setBeginTimeString("7/15/2019 14:39");
-        appointment.setEndTimeString("7/17/2019 14:39");
+        String ownerName = "Bob";
+        AppointmentBook appointmentbook = new AppointmentBook(ownerName);
+        Appointment appointment = new Appointment("Test", "7/15/2019 14:39", "7/17/2019 14:39");
         appointmentbook.addAppointment(appointment);
         assertThat(appointmentbook.getAppointments().size(), is(1));
         Appointment readAppointment = (Appointment) appointmentbook.getAppointments().get(0);
@@ -69,11 +59,9 @@ public class AppointmentBookTest {
     // Adding a bad appointment (wrong format)
     @Test(expected = WrongDateTimeFormat.class)
     public void forProject1AddingBadAppointment() {
-        AppointmentBook appointmentbook = new AppointmentBook();
-        Appointment appointment = new Appointment();
-        appointment.setDescription("Test");
-        appointment.setBeginTimeString("13/15/19 14:39"); // Bad format
-        appointment.setEndTimeString("7/17/2019 14:39");
+        String ownerName = "Bob";
+        AppointmentBook appointmentbook = new AppointmentBook(ownerName);
+        Appointment appointment = new Appointment("Test", "13/15/19 14:39", "7/17/2019 14:39");
         appointmentbook.addAppointment(appointment);
         assertThat(appointmentbook.getAppointments().size(), is(1));
     }

@@ -29,27 +29,30 @@ public class TextParser implements AppointmentBookParser<AppointmentBook> {
 
 
         File file = new File(this.textFile);
-        AppointmentBook appointmentBook = new AppointmentBook();
 
-        if((!file.isFile()) || (file.length() == 0))
-            return appointmentBook;
+
+        if(!file.isFile())
+            return null;
+
+        else if(file.length() == 0)
+            throw new CorruptedFile("The provided appointment book text file is corrupted!");
 
         try {
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("[\\t\\n]");
-            appointmentBook.setOwnerName(scanner.next());
+            AppointmentBook appointmentBook = new AppointmentBook(scanner.next());
             while(scanner.hasNext()) {
-                Appointment appointment = new Appointment();
-                appointment.setDescription(scanner.next());
-                appointment.setBeginTimeString(scanner.next());
-                appointment.setEndTimeString(scanner.next());
+                String description = scanner.next();
+                String beginTime = scanner.next();
+                String endTime = scanner.next();
+                Appointment appointment = new Appointment(description, beginTime, endTime);
                 appointmentBook.addAppointment(appointment);
             }
             scanner.close();
+            return appointmentBook;
         } catch (Exception e){
             throw new CorruptedFile("The provided appointment book text file is corrupted!");
         }
-        return appointmentBook;
 
     }
 

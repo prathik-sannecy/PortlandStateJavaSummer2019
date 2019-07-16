@@ -40,8 +40,8 @@ public class TestTextParser {
         textParser.parse();
     }
 
-    @Test
-    public void TestParsingEmptyFile() {
+    @Test(expected = CorruptedFile.class)
+    public void TestParsingEmptyFileThrowsError() {
         TextDumperTest.DeleteFile("EmptyFile");
         File f = new File("EmptyFile");
         try {
@@ -56,7 +56,7 @@ public class TestTextParser {
 
 
     // Only owner, no appointments
-    @Test
+    @Test()
     public void TestCreatingNoAppointment() {
         String fileName = "file";
         String owner = "Bob";

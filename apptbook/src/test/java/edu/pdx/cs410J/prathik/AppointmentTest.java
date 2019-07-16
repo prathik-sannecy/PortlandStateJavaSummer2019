@@ -13,152 +13,131 @@ public class AppointmentTest {
 
   @Test
   public void forProject1ItIsOkayIfGetBeginTimeReturnsNull() {
-    Appointment appointment = new Appointment();
+    Appointment appointment = new Appointment("dummy", "07/07/1298 03:32", "07/07/1298 03:32");
     assertThat(appointment.getBeginTime(), is(nullValue()));
   }
 
   @Test
   public void forProject1() {
-    Appointment appointment = new Appointment();
+    Appointment appointment = new Appointment("dummy", "07/07/1298 03:32", "07/07/1298 03:32");
     assertThat(appointment.getBeginTime(), is(nullValue()));
   }
 
   // After you set the begin time, if get the time you get the correct time
   @Test
   public void forProject1GetBeginTimeReturnsSetBeginTime() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 14:39";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
     assertThat(appointment.getBeginTimeString(), is(beginTime));
   }
 
   // If you set the hour > 24, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckHourLessThanTwentyFive() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 25:39";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you set the hour < 0, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckHourMoreThanZero() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 -1:39";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you set the minutes > 60, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckMinuteLessThanSixty() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 1:70";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you set the minutes < 0, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckMinuteGreaterZero() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 1:-1";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // Check minimum date / time
   @Test
   public void forProject1CheckValidDateLowerBound() {
-    Appointment appointment = new Appointment();
     String beginTime = "1/1/0001 00:00";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // Check maximum date / time
   @Test
   public void forProject1CheckValidDateUpperBound() {
-    Appointment appointment = new Appointment();
     String beginTime = "12/31/0001 23:59";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298  03:32");
   }
 
   // Check year format uses 4 digits, not 2
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckFourDigitYearFormat() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/19 01:01";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If month < 1, throw an Error
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckMonthGreaterThanZero() {
-    Appointment appointment = new Appointment();
     String beginTime = "7/15/2019 1:70";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you set the month > 12, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckMonthLessThanThirteen() {
-    Appointment appointment = new Appointment();
     String beginTime = "13/15/2019 1:-1";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If day < 1, throw an Error
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckDayGreaterThanZero() {
-    Appointment appointment = new Appointment();
     String beginTime = "07/00/2019 1:70";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you set the day > month's range, you get an error message
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckDayLessThanMonthsRange() {
-    Appointment appointment = new Appointment();
     String beginTime = "02/30/2019 1:-1";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
   // If you use incorrect separators for date Time format, throw error
   @Test(expected = WrongDateTimeFormat.class)
   public void forProject1CheckDateTimeFormat() {
-    Appointment appointment = new Appointment();
     String beginTime = "02-30-2019 1:10";
-    appointment.setBeginTimeString(beginTime);
+    Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
   }
 
-
-  // Get back null if description hasn't been set
-  @Test()
-  public void getDescriptionNeedsToBeImplemented() {
-    Appointment appointment = new Appointment();
-    assertThat(appointment.getDescription(), is(nullValue()));
-  }
 
   // Need to set a valid description
   @Test(expected = WrongDescription.class)
   public void forProject1CantSetNullDescription() {
-    Appointment appointment = new Appointment();
-    appointment.setDescription(null);
+    String description = null;
+    Appointment appointment = new Appointment(description, "07/07/1298 03:32", "07/07/1298 03:32");
+
   }
 
 
   // After setting description, you get back correct description
   @Test
   public void forProject1GetDescriptionReturnsSetDescription() {
-    Appointment appointment = new Appointment();
     String description = "Eat Candy";
-    appointment.setDescription(description);
+    Appointment appointment = new Appointment(description, "07/07/1298 03:32", "07/07/1298 03:32");
     assertThat(appointment.getDescription(), is(description));
   }
 
   // After you set the end time, if get the time you get the correct time
   @Test
   public void forProject1GetEndTimeReturnsSetEndTime() {
-    Appointment appointment = new Appointment();
     String endTime = "7/15/2019 14:39";
-    appointment.setEndTimeString(endTime);
+    Appointment appointment = new Appointment("dummy", "07/07/1298 03:32", endTime);
     assertThat(appointment.getEndTimeString(), is(endTime));
   }
 
