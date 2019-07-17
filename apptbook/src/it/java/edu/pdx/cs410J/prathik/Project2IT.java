@@ -150,6 +150,18 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
     }
 
+    /**
+     * Using the textfile option doesn't break with print option regardless of order
+    */
+    @Test
+    public void testTextFileOptionOrderDoesNotMatter() {
+        String fileName = "file";
+        DeleteFile(fileName);
+        MainMethodResult result = invokeMain("-print", "-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
+    }
+
 
     /**
      * README option still works with textfile option

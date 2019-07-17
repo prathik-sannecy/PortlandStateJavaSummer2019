@@ -106,10 +106,11 @@ public class Project2{
 
         // If text textFile is there (along with the text textFile name), increment the argument index count +2
         if(textFileFlag){
-            index_count += 1;
+            index_count += 2;
             // If text textFile name is missing, throw an error with corresponding message
             try {
-                textFile = args[index_count++].replace("\"", "");
+                // name of text file immediately follows the -textFile option
+                textFile = args[1+Arrays.asList(args).indexOf("-textFile")].replace("\"", "");
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.err.println("Missing text textFile name");
                 System.exit(1);
