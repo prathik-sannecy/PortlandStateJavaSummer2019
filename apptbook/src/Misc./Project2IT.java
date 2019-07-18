@@ -9,14 +9,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.io.File;
 import java.util.Scanner;
 
 /**
  * Integration tests for the {@link Project2} main class.
  */
-public class Project2IT extends InvokeMainTestCase {
+public class Project3IT extends InvokeMainTestCase {
 
     /**
      * Invokes the main method of {@link Project2} with the given arguments.
