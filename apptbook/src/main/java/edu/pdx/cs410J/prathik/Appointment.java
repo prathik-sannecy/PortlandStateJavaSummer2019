@@ -2,6 +2,7 @@ package edu.pdx.cs410J.prathik;
 
 import edu.pdx.cs410J.AbstractAppointment;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +14,9 @@ public class Appointment extends AbstractAppointment {
     private String BeginTimeString = null;
     private String EndTimeString = null;
     private String Description = null;
+    private Date EndTime = null;
+    private Date BeginTime = null;
+
 
     /**
      * Creates a new <code>Appointment</code>
@@ -26,6 +30,48 @@ public class Appointment extends AbstractAppointment {
         this.setDescription(description);
         this.setBeginTimeString(beginTime);
         this.setEndTimeString(endTime);
+        this.setEndTime();
+        this.setBeginTime();
+    }
+
+    /**
+     * Returns a <code>Date</code> that describes the end time of this
+     * <code>Appointment</code>.
+     */
+    public Date getEndTime() {
+        return this.EndTime;
+    }
+
+    /**
+     * Sets the end time of the <code>Appointment</code> in Date format
+     */
+    private void setEndTime(){
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        try {
+            this.EndTime = df.parse(this.EndTimeString);
+        } catch (Exception e){
+            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+        }
+    }
+
+    /**
+     * Returns a <code>Date</code> that describes the end time of this
+     * <code>Appointment</code>.
+     */
+    public Date getBeginTime() {
+        return this.BeginTime;
+    }
+
+    /**
+     * Sets the end time of the <code>Appointment</code> in Date format
+     */
+    private void setBeginTime(){
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        try {
+            this.BeginTime = df.parse(this.BeginTimeString);
+        } catch (Exception e){
+            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+        }
     }
 
     /**
@@ -97,6 +143,8 @@ public class Appointment extends AbstractAppointment {
             throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm!");
 
         this.BeginTimeString = beginTime;
+
+        SimpleDateFormat test;
     }
 
     /**
@@ -127,7 +175,7 @@ public class Appointment extends AbstractAppointment {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(format);
             formatter.setLenient(false);
-            Date parsedDate = formatter.parse(date);
+            formatter.parse(date);
 
         } catch (ParseException e) {
             return false;
@@ -146,10 +194,7 @@ public class Appointment extends AbstractAppointment {
             SimpleDateFormat formatter = new SimpleDateFormat(format);
             Date parsedDate1 = formatter.parse(date1);
             Date parsedDate2 = formatter.parse(date2);
-            if (parsedDate2.after(parsedDate1))
-                return true;
-
-            return false;
+            return  (parsedDate2.after(parsedDate1));
         } catch (ParseException e) {
             throw new UnsupportedOperationException("Please enter dates in correct format of mm/dd/yyyy hh:mm");
         }

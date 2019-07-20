@@ -175,6 +175,18 @@ public class Project3IT extends InvokeMainTestCase {
     }
 
     /**
+     * Before Time after End Time
+    */
+    @Test(expected = InvalidFileName.class)
+    public void testBeginTimeBeforeEndTime() {
+        String fileName = "file";
+        DeleteFile(fileName);
+        MainMethodResult result = invokeMain("-textFile", fileName, "-README", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2018" ,"14:39", "7/16/2019", "14:39");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("implements an appointment book"));
+    }
+
+    /**
      * texfile option creates new textFile
     */
     @Test

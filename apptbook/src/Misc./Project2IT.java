@@ -15,7 +15,7 @@ import java.util.Scanner;
 /**
  * Integration tests for the {@link Project2} main class.
  */
-public class Project3IT extends InvokeMainTestCase {
+public class Project2IT extends InvokeMainTestCase {
 
     /**
      * Invokes the main method of {@link Project2} with the given arguments.
