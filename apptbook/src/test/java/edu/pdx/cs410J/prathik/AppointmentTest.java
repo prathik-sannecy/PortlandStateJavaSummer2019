@@ -14,15 +14,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class AppointmentTest {
 
-
-    // After you set the begin time, if get the time you get the correct time
-    @Test
-    public void forProject1GetBeginTimeReturnsSetBeginTime() {
-        String beginTime = "7/15/2019 14:39";
-        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
-        assertThat(appointment.getBeginTimeString(), is(beginTime));
-    }
-
     // If you set the hour > 24, you get an error message
     @Test(expected = WrongDateTimeFormat.class)
     public void forProject1CheckHourLessThanTwentyFive() {
@@ -82,21 +73,21 @@ public class AppointmentTest {
     // If you set the month > 12, you get an error message
     @Test(expected = WrongDateTimeFormat.class)
     public void forProject1CheckMonthLessThanThirteen() {
-        String beginTime = "13/15/2019 1:-1";
+        String beginTime = "13/15/2019 1:1";
         Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
     }
 
     // If day < 1, throw an Error
     @Test(expected = WrongDateTimeFormat.class)
     public void forProject1CheckDayGreaterThanZero() {
-        String beginTime = "07/00/2019 1:70";
+        String beginTime = "07/00/2019 1:20";
         Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
     }
 
     // If you set the day > month's range, you get an error message
     @Test(expected = WrongDateTimeFormat.class)
     public void forProject1CheckDayLessThanMonthsRange() {
-        String beginTime = "02/30/2019 1:-1";
+        String beginTime = "02/30/2019 1:1";
         Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
     }
 
@@ -125,37 +116,16 @@ public class AppointmentTest {
         assertThat(appointment.getDescription(), is(description));
     }
 
-    // After you set the end time, if get the time you get the correct time
-    @Test
-    public void forProject1GetEndTimeReturnsSetEndTime() {
-        String endTime = "7/15/2019 14:39";
-        Appointment appointment = new Appointment("dummy", "07/07/1298 03:32", endTime);
-        assertThat(appointment.getEndTimeString(), is(endTime));
-    }
 
-    // After you set the end time, get back the correct Date in getEndTime
-    @Test
-    public void forProject3ReformatedEndDate() {
-        String endTime = "7/15/2019 14:39";
-        Appointment appointment = new Appointment("dummy", "07/07/1298 03:32", endTime);
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-        try {
-            Date myDate = df.parse(endTime);
-            assertThat(appointment.getEndTime(), is(myDate));
-        } catch (Exception e){
-
-        }
-    }
-
-    // After you set the end time, get back the correct Date in getBeginTime
+    // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
     @Test
     public void forProject3ReformatedBeginDate() {
         String beginTime = "7/15/2019 14:39";
-        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        String endTime = "3/1/1894 1:1";
+        Appointment appointment = new Appointment("dummy", beginTime, endTime);
         try {
-            Date myDate = df.parse(beginTime);
-            assertThat(appointment.getBeginTime(), is(myDate));
+            assertThat(appointment.getBeginTimeString(), is("7/15/19, 2:39 PM"));
+            assertThat(appointment.getEndTimeString(), is("3/1/94, 1:01 AM"));
         } catch (Exception e){
 
         }

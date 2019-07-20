@@ -5,7 +5,9 @@ import edu.pdx.cs410J.AbstractAppointment;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * This class is represents a <code>Appointment</code>.
@@ -30,8 +32,6 @@ public class Appointment extends AbstractAppointment {
         this.setDescription(description);
         this.setBeginTimeString(beginTime);
         this.setEndTimeString(endTime);
-        this.setEndTime();
-        this.setBeginTime();
     }
 
     /**
@@ -45,10 +45,11 @@ public class Appointment extends AbstractAppointment {
     /**
      * Sets the end time of the <code>Appointment</code> in Date format
      */
-    private void setEndTime(){
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+    private void setEndTime(String date, String format){
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        df.setLenient(false);
         try {
-            this.EndTime = df.parse(this.EndTimeString);
+            this.EndTime = df.parse(date);
         } catch (Exception e){
             System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
         }
@@ -65,13 +66,27 @@ public class Appointment extends AbstractAppointment {
     /**
      * Sets the end time of the <code>Appointment</code> in Date format
      */
-    private void setBeginTime(){
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+    private void setBeginTime(String date, String format){
+        /*
         try {
-            this.BeginTime = df.parse(this.BeginTimeString);
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+            formatter.setLenient(false);
+            formatter.parse(date);
+
+        } catch (ParseException e) {
+            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+        }
+        */
+
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        df.setLenient(false);
+        try {
+            this.BeginTime = df.parse(date);
         } catch (Exception e){
             System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
         }
+
+
     }
 
     /**
@@ -91,10 +106,21 @@ public class Appointment extends AbstractAppointment {
      */
     private void setEndTimeString(String endTime) {
         boolean validDateTimeFormat = false;
-        if (checkDateFormat(endTime, "mm/dd/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(endTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(endTime, "mm/d/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(endTime, "m/d/yyyy HH:mm")) validDateTimeFormat = true;
+        String format = null;
+        ArrayList<String> formats = new ArrayList<>();
+        formats.add("MM/dd/yyyy HH:mm");
+        formats.add("MM/dd/yyyy HH:mm");
+        formats.add("MM/d/yyyy HH:mm");
+        formats.add("MM/d/yyyy HH:mm");
+
+        // Figure out which of the valid formats the date is in
+        for(String i: formats){
+             if(checkDateFormat(endTime, "MM/dd/yyyy HH:mm")){
+                 validDateTimeFormat = true;
+                 format = i;
+                 break;
+             }
+         }
 
         // Make sure year is 4 digits
         try {
@@ -107,7 +133,12 @@ public class Appointment extends AbstractAppointment {
         if (!validDateTimeFormat)
             throw new WrongDateTimeFormat("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
 
-        this.EndTimeString = endTime;
+        // Set the endTime in Date Format
+        setEndTime(endTime, format);
+
+        // Take the end time in date format, and save it in string format
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale("en", "US"));
+        this.EndTimeString = df.format(this.EndTime);
     }
 
     /**
@@ -126,10 +157,21 @@ public class Appointment extends AbstractAppointment {
      */
     private void setBeginTimeString(String beginTime) {
         boolean validDateTimeFormat = false;
-        if (checkDateFormat(beginTime, "mm/dd/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(beginTime, "m/dd/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(beginTime, "mm/d/yyyy HH:mm")) validDateTimeFormat = true;
-        if (checkDateFormat(beginTime, "m/d/yyyy HH:mm")) validDateTimeFormat = true;
+        String format = null;
+        ArrayList<String> formats = new ArrayList<>();
+            formats.add("MM/dd/yyyy HH:mm");
+            formats.add("MM/dd/yyyy HH:mm");
+            formats.add("MM/d/yyyy HH:mm");
+            formats.add("MM/d/yyyy HH:mm");
+
+        // Figure out which of the valid formats the date is in
+        for(String i: formats){
+            if(checkDateFormat(beginTime, "MM/dd/yyyy HH:mm")){
+                validDateTimeFormat = true;
+                format = i;
+                break;
+            }
+        }
 
         // Make sure year is 4 digits
         try {
@@ -142,9 +184,13 @@ public class Appointment extends AbstractAppointment {
         if (!validDateTimeFormat)
             throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm!");
 
-        this.BeginTimeString = beginTime;
+        // Set the endTime in Date Format
+        setBeginTime(beginTime, format);
 
-        SimpleDateFormat test;
+        // Take the begin time in date format, and save it in string format
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale("en", "US"));
+        this.BeginTimeString = df.format(this.BeginTime);
+
     }
 
     /**
