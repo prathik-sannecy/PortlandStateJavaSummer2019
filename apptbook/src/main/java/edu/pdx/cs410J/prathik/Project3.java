@@ -2,9 +2,13 @@ package edu.pdx.cs410J.prathik;
 
 import edu.pdx.cs410J.AbstractAppointmentBook;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /**
@@ -206,24 +210,55 @@ public class Project3{
             appointmentBook = textFile(textFile, owner, appointment);
         }
 
-        //If optional pretty flag was set, read in/create new existing appointmentbook from the file.
-        // Then add the appointment to it, and write the appointmentbook back to the file
+        //If optional pretty flag was set, sort the appointmentBook and store it into the prettyFile
         if(prettyFileFlag){
             if(appointmentBook == null){
                 appointmentBook = new AppointmentBook(owner);
                 appointmentBook.addAppointment(appointment);
+                pretty(prettyFile, appointmentBook);
 
             }
-
         }
 
         // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
         if (printFlag) {
             print(appointment);
         }
-
         System.exit(0);
+    }
 
+    private static void pretty(String prettyFile, AppointmentBook appointmentBook) {
+        if(prettyFile.equals("-")) {
+            printAppointmentBookToStandardOut(appointmentBook);
+        }
+        else {
+            File f = new File(prettyFile);
+            // If textFiles exists, delete and then recreate it
+            if (f.isFile()) {
+                f.delete();
+            }
+            try {
+                f.createNewFile();
+
+
+                FileWriter fw = new FileWriter(prettyFile);
+
+                fw.write(appointmentBook.toString() + "\n");
+                for (Appointment appointment : appointmentBook.getAppointments())
+                    fw.write(appointment.toString() + "\n");
+
+                fw.close();
+            } catch (Exception e) {
+                throw new InvalidFileName("Please provide a valid file name using SetFile method");
+            }
+        }
+    }
+
+    private static void printAppointmentBookToStandardOut(AppointmentBook appointmentBook) {
+        System.out.println(appointmentBook.toString());
+        for(Appointment appointment : appointmentBook.getAppointments()){
+            System.out.println(appointment.toString());
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package edu.pdx.cs410J.prathik;
 import edu.pdx.cs410J.AbstractAppointmentBook;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This class is represents a <code>AppointmentBook</code>.
@@ -47,6 +48,7 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     @Override
     public void addAppointment(Appointment appointment)  {
         this.AppointmentBook.add(appointment);
+        Collections.sort(AppointmentBook);
 
     }
 

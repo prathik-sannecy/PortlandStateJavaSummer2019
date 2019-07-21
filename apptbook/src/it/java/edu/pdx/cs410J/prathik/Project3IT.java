@@ -232,6 +232,54 @@ public class Project3IT extends InvokeMainTestCase {
         DeleteFile(fileName);
         String owner = "Bob";
         String description1 = "eating burger";
+        String beginTime1 = "01/06/1946 11:43 AM";
+        String endTime1 = "05/13/4447 03:48 AM";
+
+        String description2 = "taking nap";
+        String beginTime2 = "03/17/1996 03:43 AM";
+        String endTime2 = "03/17/1997 03:44 PM";
+
+        MainMethodResult result = invokeMain("-textFile", fileName, owner, "\"eating burger\"",  "01/6/1946" ,"11:43", "AM", "05/13/4447", "03:48", "AM");
+        assertThat(result.getExitCode(), equalTo(0));
+
+        result = invokeMain("-textFile", fileName, owner, "\"taking nap\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+
+        File file = new File(fileName);
+        try {
+            Scanner scanner = new Scanner(file);
+            scanner.useDelimiter("[\\t\\n]");
+            String scannerOwner = scanner.next();
+            String descriptionString1 = scanner.next();
+            String beginTimeString1 = scanner.next();
+            String endTimeString1 = scanner.next();
+            String descriptionString2 = scanner.next();
+            String beginTimeString2 = scanner.next();
+            String endTimeString2 = scanner.next();
+            assertThat(owner, equalTo(scannerOwner));
+            assertThat(description1, equalTo(descriptionString1));
+            assertThat(beginTime1, equalTo(beginTimeString1));
+            assertThat(endTime1, equalTo(endTimeString1));
+            assertThat(description2, equalTo(descriptionString2));
+            assertThat(beginTime2, equalTo(beginTimeString2));
+            assertThat(endTime2, equalTo(endTimeString2));
+            assertThat(scanner.hasNext(), equalTo(false));
+            scanner.close();
+        } catch (Exception e){
+
+        }
+
+    }
+
+    /**
+     * The appointmentBook should self-sort
+     */
+    @Test
+    public void testAppointmentBookSorted() {
+        String fileName = "file";
+        DeleteFile(fileName);
+        String owner = "Bob";
+        String description1 = "eating burger";
         String beginTime1 = "03/17/1996 03:43 AM";
         String endTime1 = "03/17/1997 03:44 PM";
 
@@ -250,12 +298,12 @@ public class Project3IT extends InvokeMainTestCase {
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("[\\t\\n]");
             String scannerOwner = scanner.next();
-            String descriptionString1 = scanner.next();
-            String beginTimeString1 = scanner.next();
-            String endTimeString1 = scanner.next();
             String descriptionString2 = scanner.next();
             String beginTimeString2 = scanner.next();
             String endTimeString2 = scanner.next();
+            String descriptionString1 = scanner.next();
+            String beginTimeString1 = scanner.next();
+            String endTimeString1 = scanner.next();
             assertThat(owner, equalTo(scannerOwner));
             assertThat(description1, equalTo(descriptionString1));
             assertThat(beginTime1, equalTo(beginTimeString1));
@@ -342,5 +390,24 @@ public class Project3IT extends InvokeMainTestCase {
         DeleteFile(fileName2);
     }
 
+
+
+    /**
+     * pretty option adds appointment to new appointment book
+     */
+    @Test
+    public void prettyFileOptionCreatesNewAppointmentToAppointmentBook() {
+        String fileName = "pretty";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+        String description = "eating burger";
+        String beginTime = "03/17/1996 03:43 AM";
+        String endTime = "03/17/1997 03:44 PM";
+
+        MainMethodResult result = invokeMain("-pretty", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+    }
 
 }
