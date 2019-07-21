@@ -218,7 +218,13 @@ public class AppointmentTest {
     }
 
 
-
+    // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
+    @Test(expected = UnsupportedOperationException.class)
+    public void forProject3BeginTimeMustPrecedeEndTime() {
+        String beginTime = "7/15/2019 2:39 AM";
+        String endTime = "3/1/1894 1:1 PM";
+        Appointment appointment = new Appointment("dummy", beginTime, endTime);
+    }
 
 
 
