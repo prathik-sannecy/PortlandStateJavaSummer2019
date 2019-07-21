@@ -79,7 +79,7 @@ public class Project3IT extends InvokeMainTestCase {
      */
     @Test
     public void testInvalidCommandLineArguments() {
-        MainMethodResult result = invokeMain("\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019", "14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
     }
 
@@ -110,7 +110,7 @@ public class Project3IT extends InvokeMainTestCase {
      */
     @Test
     public void testTooManyArguments() {
-        MainMethodResult result = invokeMain( "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39", "dummy");
+        MainMethodResult result = invokeMain( "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM", "dummy");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Too many arguments"));
 
@@ -121,9 +121,9 @@ public class Project3IT extends InvokeMainTestCase {
      */
     @Test
     public void testPrintOption() {
-        MainMethodResult result = invokeMain("-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-print", "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
     }
 
     /**
@@ -133,7 +133,7 @@ public class Project3IT extends InvokeMainTestCase {
     public void testTextFileOptionDoesNotBreak() {
         String fileName = "file";
         DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
     }
 
@@ -144,9 +144,9 @@ public class Project3IT extends InvokeMainTestCase {
     public void testTextFileOptionDoesNotBreakOtherOptions() {
         String fileName = "file";
         DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-textFile", fileName, "-print", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-textFile", fileName, "-print", "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
     }
 
     /**
@@ -156,9 +156,9 @@ public class Project3IT extends InvokeMainTestCase {
     public void testTextFileOptionOrderDoesNotMatter() {
         String fileName = "file";
         DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-print", "-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-print", "-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 7/15/2019 14:39 until 7/16/2019 14:39"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
     }
 
 
@@ -169,22 +169,11 @@ public class Project3IT extends InvokeMainTestCase {
     public void testTextFileOptionDoesNotBreakReadme() {
         String fileName = "file";
         DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-textFile", fileName, "-README", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-textFile", fileName, "-README", "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
         assertThat(result.getTextWrittenToStandardOut(), containsString("implements an appointment book"));
     }
 
-    /**
-     * Before Time after End Time
-    */
-    @Test(expected = InvalidFileName.class)
-    public void testBeginTimeBeforeEndTime() {
-        String fileName = "file";
-        DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-textFile", fileName, "-README", "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2018" ,"14:39", "7/16/2019", "14:39");
-        assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("implements an appointment book"));
-    }
 
     /**
      * texfile option creates new textFile
@@ -193,7 +182,7 @@ public class Project3IT extends InvokeMainTestCase {
     public void testTextFileOptionCreatesFile() {
         String fileName = "file";
         DeleteFile(fileName);
-        MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "7/15/2019" ,"14:39", "7/16/2019", "14:39");
+        MainMethodResult result = invokeMain("-textFile", fileName, "\"Bob Swan Jr.\"", "\"Eating\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
         assertThat(new File(fileName).isFile(), equalTo(true));
         // File contains appointment
@@ -209,10 +198,10 @@ public class Project3IT extends InvokeMainTestCase {
         DeleteFile(fileName);
         String owner = "Bob";
         String description = "eating burger";
-        String beginTime = "03/17/1996 03:43";
-        String endTime = "03/17/1997 03:44";
+        String beginTime = "03/17/1996 03:43 AM";
+        String endTime = "03/17/1997 03:44 PM";
 
-        MainMethodResult result = invokeMain("-textFile", fileName, owner, "\"eating burger\"", "03/17/1996" ,"03:43", "03/17/1997", "03:44");
+        MainMethodResult result = invokeMain("-textFile", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
         File file = new File(fileName);
@@ -243,17 +232,17 @@ public class Project3IT extends InvokeMainTestCase {
         DeleteFile(fileName);
         String owner = "Bob";
         String description1 = "eating burger";
-        String beginTime1 = "03/17/1996 03:43";
-        String endTime1 = "03/17/1997 03:44";
+        String beginTime1 = "03/17/1996 03:43 AM";
+        String endTime1 = "03/17/1997 03:44 PM";
 
         String description2 = "taking nap";
-        String beginTime2 = "01/6/1946 23:43";
-        String endTime2 = "05/13/4447 03:48";
+        String beginTime2 = "01/06/1946 11:43 AM";
+        String endTime2 = "05/13/4447 03:48 AM";
 
-        MainMethodResult result = invokeMain("-textFile", fileName, owner, "\"eating burger\"", "03/17/1996" ,"03:43", "03/17/1997", "03:44");
+        MainMethodResult result = invokeMain("-textFile", fileName, owner, "\"eating burger\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
-        result = invokeMain("-textFile", fileName, owner, "\"taking nap\"", "01/6/1946" ,"23:43", "05/13/4447", "03:48");
+        result = invokeMain("-textFile", fileName, owner, "\"taking nap\"", "01/6/1946" ,"11:43", "AM", "05/13/4447", "03:48", "AM");
         assertThat(result.getExitCode(), equalTo(0));
 
         File file = new File(fileName);
@@ -290,10 +279,10 @@ public class Project3IT extends InvokeMainTestCase {
         String owner1 = "Bob";
         String owner2 = "John";
 
-        MainMethodResult result = invokeMain("-textFile", fileName, owner1, "\"eating burger\"", "03/17/1996" ,"03:43", "03/17/1997", "03:44");
+        MainMethodResult result = invokeMain("-textFile", fileName, owner1, "\"eating burger\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
-        result = invokeMain("-textFile", fileName, owner2, "\"taking nap\"", "01/6/1946" ,"23:43", "05/13/4447", "03:48");
+        result = invokeMain("-textFile", fileName, owner2, "\"taking nap\"", "01/6/1946" ,"11:43", "PM", "05/13/4447", "03:48", "PM");
         assertThat(result.getExitCode(), equalTo(1));
 
         assertThat(result.getTextWrittenToStandardError(), containsString("Owner mismatch"));
@@ -315,7 +304,7 @@ public class Project3IT extends InvokeMainTestCase {
         String beginTime2 = "01/6/1946 23:43";
         String endTime2 = "05/13/4447 03:48";
 
-        MainMethodResult result = invokeMain("-textFile", fileName1, owner, "\"eating burger\"", "03/17/1996" ,"03:43", "03/17/1997", "03:44");
+        MainMethodResult result = invokeMain("-textFile", fileName1, owner, "\"eating burger\"", "03/17/1996" ,"03:43", "AM",  "03/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
         try {
@@ -323,7 +312,7 @@ public class Project3IT extends InvokeMainTestCase {
         } catch (Exception e){
 
         }
-        result = invokeMain("-textFile", fileName2, owner, "\"taking nap\"", "01/6/1946" ,"23:43", "05/13/4447", "03:48");
+        result = invokeMain("-textFile", fileName2, owner, "\"taking nap\"", "01/6/1946" ,"11:43", "PM", "05/13/4447", "03:48", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
         File file = new File(fileName1);

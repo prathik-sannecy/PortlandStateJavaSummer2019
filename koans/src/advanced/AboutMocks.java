@@ -22,7 +22,12 @@ public class AboutMocks {
         public ClassUnderTest() {
             // default is to pass a broken Collaborator, test should pass one
             // that doesn't throw exception
-            this(new ExplosiveCollaborator());
+            this(new Collaborator() {
+                @Override
+                public void doBusinessStuff() {
+
+                }
+            });
         }
 
         public ClassUnderTest(Collaborator c) {

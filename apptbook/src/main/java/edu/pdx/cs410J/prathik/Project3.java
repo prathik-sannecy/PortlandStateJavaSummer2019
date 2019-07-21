@@ -41,13 +41,15 @@ public class Project3{
 
     /**
      * Loads a pre-existing (if it exists) <code>Appointmentbook</code> from <code>textFile</code>,
-     * adds the new <code>Appointment</code> to it, and saves it back
+     * adds the new <code>Appointment</code> to it, and saves it back.
+     *
+     * Returns back the new appointment book with all the appointments
      *
      * @param textFile The file to load the appointmentbook, where to resave it
      * @param owner The owner of the appointmentbook
      * @param appointment The new appointment to add to the appointmentbook
      */
-    private static void textFile(String textFile, String owner, Appointment appointment){
+    private static AppointmentBook textFile(String textFile, String owner, Appointment appointment){
         AppointmentBook appointmentbook;
 
         TextParser textParser = new TextParser(textFile);
@@ -65,6 +67,8 @@ public class Project3{
 
         TextDumper textDumper = new TextDumper(textFile);
         textDumper.dump(appointmentbook);
+
+        return appointmentbook;
     }
 
     /**
@@ -76,12 +80,14 @@ public class Project3{
         boolean printFlag = false;
         boolean READMEFlag = false;
         boolean textFileFlag = false;
+        boolean prettyFileFlag = false;
         int index_count = 0;
         String owner = "";
         String description = "";
         String beginTime = "";
         String endTime = "";
         String textFile = "";
+        String prettyFile = "";
 
         // No arguments
         if (args.length == 0) {
@@ -93,6 +99,7 @@ public class Project3{
         READMEFlag = Arrays.asList(args).contains("-README");
         printFlag = Arrays.asList(args).contains("-print");
         textFileFlag = Arrays.asList(args).contains("-textFile");
+        prettyFileFlag = Arrays.asList(args).contains("-pretty");
 
         // If Readme, print readme and exit
         if (READMEFlag) {
@@ -111,6 +118,19 @@ public class Project3{
             try {
                 // name of text file immediately follows the -textFile option
                 textFile = args[1+Arrays.asList(args).indexOf("-textFile")].replace("\"", "");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("Missing text textFile name");
+                System.exit(1);
+            }
+        }
+
+        // If prettyFileFlag pretty is there (along with the text prettyFile name), increment the argument index count +2
+        if(prettyFileFlag){
+            index_count += 2;
+            // If text prettyFile name is missing, throw an error with corresponding message
+            try {
+                // name of pretty file immediately follows the -pretty option
+                prettyFile = args[1+Arrays.asList(args).indexOf("-pretty")].replace("\"", "");
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.err.println("Missing text textFile name");
                 System.exit(1);
@@ -144,9 +164,21 @@ public class Project3{
             System.exit(1);
         }
         try {
+            beginTime = beginTime + " " + args[index_count++];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Missing time for appointment begin time\nPlease use the -README flag to see use cases");
+            System.exit(1);
+        }
+        try {
             endTime = args[index_count++];
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Missing date for appointment end time\nPlease use the -README flag to see use cases");
+            System.exit(1);
+        }
+        try {
+            endTime = endTime + " " + args[index_count++];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Missing time for appointment end time\nPlease use the -README flag to see use cases");
             System.exit(1);
         }
         try {
@@ -165,10 +197,24 @@ public class Project3{
         // Set up the newly created appointment
         Appointment appointment = new Appointment(description, beginTime, endTime);
 
+        // Create appointmentBook object in case pretty flag is used
+        AppointmentBook appointmentBook = null;
+
         //If optional textFile flag was set, read in/create new existing appointmentbook from the file.
         // Then add the appointment to it, and write the appointmentbook back to the file
         if(textFileFlag){
-            textFile(textFile, owner, appointment);
+            appointmentBook = textFile(textFile, owner, appointment);
+        }
+
+        //If optional pretty flag was set, read in/create new existing appointmentbook from the file.
+        // Then add the appointment to it, and write the appointmentbook back to the file
+        if(prettyFileFlag){
+            if(appointmentBook == null){
+                appointmentBook = new AppointmentBook(owner);
+                appointmentBook.addAppointment(appointment);
+
+            }
+
         }
 
         // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
