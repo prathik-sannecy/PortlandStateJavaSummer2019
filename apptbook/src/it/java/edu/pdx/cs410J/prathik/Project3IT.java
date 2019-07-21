@@ -393,21 +393,159 @@ public class Project3IT extends InvokeMainTestCase {
 
 
     /**
-     * pretty option adds appointment to new appointment book
+     * pretty option adds appointment to new appointment book, prints to stardard out
      */
     @Test
-    public void prettyFileOptionCreatesNewAppointmentToAppointmentBook() {
-        String fileName = "pretty";
+    public void prettyFileOptionCreatesNewAppointmentToAppointmentBookStandardOut() {
+        String fileName = "-";
         DeleteFile(fileName);
         String owner = "Bobs";
-        String description = "eating burger";
-        String beginTime = "03/17/1996 03:43 AM";
-        String endTime = "03/17/1997 03:44 PM";
 
         MainMethodResult result = invokeMain("-pretty", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Eating from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
-        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
     }
+
+    /**
+     * pretty option adds appointment to new appointment book, prints to file
+     */
+    @Test
+    public void prettyFileOptionCreatesNewAppointmentToAppointmentBookPrintsFile() {
+        String fileName = "pretty";
+        DeleteFile(fileName);
+        String owner = "Bob";
+
+        MainMethodResult result = invokeMain("-pretty", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+
+        try {
+            Scanner scanner = new Scanner(new File(fileName));
+            assertThat(scanner.nextLine(), containsString("Bob"));
+            assertThat(scanner.nextLine(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+            scanner.close();
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    /**
+     * pretty option adds appointment to existing appointment book, prints to stardard out
+     */
+    @Test
+    public void prettyFileOptionAddsAppointmentToAppointmentBookStandardOut() {
+        String fileName = "-";
+        String textFile = "textFile";
+        DeleteFile(fileName);
+        DeleteFile(textFile);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-textFile", textFile, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        result = invokeMain("-textFile", textFile, "-pretty", fileName, owner, "\"always sleeping\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("always sleeping from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+    }
+
+    /**
+     * pretty option adds appointment to existing appointment book, prints to file
+     */
+    @Test
+    public void prettyFileOptionAddsAppointmentToAppointmentBookPrintsFile() {
+        String fileName = "pretty";
+        String textFile = "textFile";
+        DeleteFile(fileName);
+        DeleteFile(textFile);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-textFile", textFile, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        result = invokeMain("-textFile", textFile, "-pretty", fileName, owner, "\"always sleeping\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+
+        try {
+            Scanner scanner = new Scanner(new File(fileName));
+            assertThat(scanner.nextLine(), containsString("Bob"));
+            assertThat(scanner.nextLine(), containsString("always sleeping from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+            assertThat(scanner.nextLine(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+            scanner.close();
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    // Pretty option with print option
+    @Test
+    public void prettyFileOptionWithPrintOption() {
+        String fileName = "-";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-pretty", fileName,  "-print", owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        String textout = result.getTextWrittenToStandardOut();
+        try {
+            assertThat(result.getTextWrittenToStandardOut(), containsString("Bob"));
+            assertThat(result.getTextWrittenToStandardOut(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM\neating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+        } catch (Exception e) {
+
+        }
+
+    }
+
+
+
+    // Pretty Option with no text file generates error
+    @Test
+    public void prettyFileOptionWithNoOption() {
+        String fileName = "-";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-pretty", "-print", owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(1));
+
+    }
+
+    // Pretty Option with no text file generates error
+    @Test
+    public void prettyFileOptionWithNoOption2() {
+        String fileName = "-";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-print", "-pretty",  owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(1));
+
+    }
+
+    // Pretty Option with README works
+    @Test
+    public void prettyFileOptionWithREADMEOption1() {
+        String fileName = "-";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-README", "-pretty",  owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("implements an appointment book"));
+
+    }
+
+    // Pretty Option with README works (README is second flag)
+    @Test
+    public void prettyFileOptionWithREADMEOption2() {
+        String fileName = "-";
+        DeleteFile(fileName);
+        String owner = "Bobs";
+
+        MainMethodResult result = invokeMain("-pretty", "-README", owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("implements an appointment book"));
+
+    }
+
 
 }
