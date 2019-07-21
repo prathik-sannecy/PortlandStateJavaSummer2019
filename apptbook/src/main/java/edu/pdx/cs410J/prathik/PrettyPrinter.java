@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AppointmentBookDumper;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is represents a <code>TextDumper</code>.
@@ -44,13 +45,16 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
         if (!CheckValidFileName(this.textFile))
             throw new InvalidFileName("Please provide a valid file name using SetFile method");
 
+        int appointmentCounter = 1;
         // Print to standard out if textfile is -
         if (this.textFile.equals("-")) {
             System.out.println(appointmentBook.toString());
             for (Appointment appointment : appointmentBook.getAppointments()) {
-                System.out.println(appointment.toString());
+                System.out.println("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString());
+                appointmentCounter++;
             }
         }
+        // Otherwise write to file specified
         else{
                 File f = new File(this.textFile);
                 // If textFiles exists, delete and then recreate it
@@ -59,13 +63,13 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
                 }
                 try {
                     f.createNewFile();
-
-
                     FileWriter fw = new FileWriter(textFile);
 
                     fw.write(appointmentBook.toString() + "\n");
-                    for (Appointment appointment : appointmentBook.getAppointments())
-                        fw.write(appointment.toString() + "\n");
+                    for (Appointment appointment : appointmentBook.getAppointments()) {
+                        fw.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString() + "\n");
+                        appointmentCounter++;
+                    }
 
                     fw.close();
                 } catch (Exception e) {
@@ -73,4 +77,10 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
                 }
             }
         }
+
+    private String appointmentDuration(Appointment appointment) {
+        long diffInMillies = appointment.getEndTime().getTime() - appointment.getBeginTime().getTime();
+        long diffInMIn = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return Long.toString(diffInMIn);
     }
+}

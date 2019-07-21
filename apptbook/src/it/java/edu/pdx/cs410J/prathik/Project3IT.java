@@ -415,13 +415,13 @@ public class Project3IT extends InvokeMainTestCase {
         DeleteFile(fileName);
         String owner = "Bob";
 
-        MainMethodResult result = invokeMain("-pretty", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1997", "03:44", "PM");
+        MainMethodResult result = invokeMain("-pretty", fileName, owner, "\"eating burger\"", "03/17/1996" ,"3:43", "AM",  "3/17/1996", "03:44", "PM");
         assertThat(result.getExitCode(), equalTo(0));
 
         try {
             Scanner scanner = new Scanner(new File(fileName));
             assertThat(scanner.nextLine(), containsString("Bob"));
-            assertThat(scanner.nextLine(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+            assertThat(scanner.nextLine(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1996 03:44 PM"));
             scanner.close();
         } catch (Exception e) {
 
@@ -488,7 +488,7 @@ public class Project3IT extends InvokeMainTestCase {
         String textout = result.getTextWrittenToStandardOut();
         try {
             assertThat(result.getTextWrittenToStandardOut(), containsString("Bob"));
-            assertThat(result.getTextWrittenToStandardOut(), containsString("eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM\neating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
+            assertThat(result.getTextWrittenToStandardOut(), containsString("Appointment1 Duration 526321 minutes: eating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM\neating burger from 03/17/1996 03:43 AM until 03/17/1997 03:44 PM"));
         } catch (Exception e) {
 
         }
