@@ -45,15 +45,15 @@ public class AppointmentTest {
     // Check minimum date / time
     @Test
     public void forProject1CheckValidDateLowerBound() {
-        String beginTime = "1/1/0001 00:00";
-        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32");
+        String beginTime = "1/1/0001 12:00 AM";
+        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298 03:32 PM");
     }
 
     // Check maximum date / time
     @Test
     public void forProject1CheckValidDateUpperBound() {
-        String beginTime = "12/31/0001 23:59";
-        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298  03:32");
+        String beginTime = "12/31/0001 12:59 PM";
+        Appointment appointment = new Appointment("dummy", beginTime, "07/07/1298  03:32 PM");
     }
 
     // Check year format uses 4 digits, not 2
@@ -112,7 +112,7 @@ public class AppointmentTest {
     @Test
     public void forProject1GetDescriptionReturnsSetDescription() {
         String description = "Eat Candy";
-        Appointment appointment = new Appointment(description, "07/07/1298 03:32", "07/08/1298 03:32");
+        Appointment appointment = new Appointment(description, "07/07/1298 03:32 AM", "07/08/1298 03:32 AM");
         assertThat(appointment.getDescription(), is(description));
     }
 
@@ -120,23 +120,101 @@ public class AppointmentTest {
     // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
     @Test
     public void forProject3ReformatedBeginDate() {
-        String beginTime = "7/15/0019 14:39";
-        String endTime = "3/1/1894 1:1";
+        String beginTime = "7/15/0019 2:39 PM";
+        String endTime = "3/1/1894 1:1 AM";
         Appointment appointment = new Appointment("dummy", beginTime, endTime);
         try {
-            assertThat(appointment.getBeginTimeString(), is("7/15/19, 2:39 PM"));
-            assertThat(appointment.getEndTimeString(), is("3/1/94, 1:01 AM"));
+            assertThat(appointment.getBeginTimeString(), is("07/15/0019 02:39 PM"));
+            assertThat(appointment.getEndTimeString(), is("03/01/1894 01:01 AM"));
         } catch (Exception e){
 
         }
     }
 
-    // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
-    @Test(expected = UnsupportedOperationException.class)
-    public void forProject3BeginTimeMustPrecedeEndTime() {
-        String beginTime = "7/15/2019 14:39";
-        String endTime = "3/1/1894 1:1";
-        Appointment appointment = new Appointment("dummy", beginTime, endTime);
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1BeginTimePrecedesApp2BeginTime() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:40 PM";
+        String endTime2 = "3/1/1894 1:1 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(-1));
+    }
+
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1BeginTimeFollowsApp2BeginTime() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:38 PM";
+        String endTime2 = "3/1/1894 1:1 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(1));
+    }
+
+
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1EndTimePrecedesApp2EndTime() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:39 PM";
+        String endTime2 = "3/1/1894 1:11 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(-1));
+    }
+
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1EndTimeFollowsApp2EndTime() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:39 PM";
+        String endTime2 = "3/1/1894 1:1 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(1));
+    }
+
+
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1DescriptionPrecedesApp2Description() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("Dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:39 PM";
+        String endTime2 = "3/1/1894 1:10 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(-1));
+    }
+
+    // Appointment 2 after appointment 1
+    @Test
+    public void forProject3App1DescriptionFollowsApp2Description() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:39 PM";
+        String endTime2 = "3/1/1894 1:10 AM";
+        Appointment appointment2 = new Appointment("Dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(1));
+    }
+
+    // Appointment 2 same as Appointment 1
+    @Test
+    public void forProject3App1EqualsApp2() {
+        String beginTime1 = "7/15/0019 2:39 PM";
+        String endTime1 = "3/1/1894 1:10 AM";
+        Appointment appointment1 = new Appointment("dummy", beginTime1, endTime1);
+        String beginTime2 = "7/15/0019 2:39 PM";
+        String endTime2 = "3/1/1894 1:10 AM";
+        Appointment appointment2 = new Appointment("dummy", beginTime2, endTime2);
+        assertThat(appointment1.compareTo(appointment2), is(0));
     }
 
 

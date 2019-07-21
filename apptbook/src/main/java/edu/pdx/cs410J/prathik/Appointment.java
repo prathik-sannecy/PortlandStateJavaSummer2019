@@ -12,7 +12,7 @@ import java.util.Locale;
 /**
  * This class is represents a <code>Appointment</code>.
  */
-public class Appointment extends AbstractAppointment {
+public class Appointment extends AbstractAppointment implements Comparable<Appointment> {
     private String BeginTimeString = null;
     private String EndTimeString = null;
     private String Description = null;
@@ -24,15 +24,14 @@ public class Appointment extends AbstractAppointment {
      * Creates a new <code>Appointment</code>
      *
      * @param description description of the appointment
-     * @param beginTime Start time of the appointment (mm/dd/yyyy hh:mm format)
-     * @param endTime End time of the appointment (mm/dd/yyyy hh:mm format)
+     * @param beginTime Start time of the appointment (mm/dd/yyyy hh:mm AM/PM format)
+     * @param endTime End time of the appointment (mm/dd/yyyy hh:mm AM/PM format)
      */
     public Appointment(String description, String beginTime, String endTime) {
         super();
         this.setDescription(description);
         this.setBeginTimeString(beginTime);
         this.setEndTimeString(endTime);
-        this.checkDateOrder();
     }
 
     /**
@@ -52,7 +51,7 @@ public class Appointment extends AbstractAppointment {
         try {
             this.EndTime = df.parse(date);
         } catch (Exception e){
-            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm AM/PM");
         }
     }
 
@@ -73,7 +72,7 @@ public class Appointment extends AbstractAppointment {
         try {
             this.BeginTime = df.parse(date);
         } catch (Exception e){
-            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm AM/PM");
         }
     }
 
@@ -90,20 +89,20 @@ public class Appointment extends AbstractAppointment {
     /**
      * Sets the end time of the <code>Appointment</code>
      *
-     * @param endTime The time at which the appointment will end (mm/dd/yyyy hh:mm format)
+     * @param endTime The time at which the appointment will end (mm/dd/yyyy hh:mm AM/PM format)
      */
     private void setEndTimeString(String endTime) {
         boolean validDateTimeFormat = false;
         String format = null;
         ArrayList<String> formats = new ArrayList<>();
-        formats.add("MM/dd/yyyy HH:mm");
-        formats.add("MM/dd/yyyy HH:mm");
-        formats.add("MM/d/yyyy HH:mm");
-        formats.add("MM/d/yyyy HH:mm");
+        formats.add("MM/dd/yyyy hh:mm a");
+        formats.add("MM/dd/yyyy hh:mm a");
+        formats.add("MM/d/yyyy hh:mm a");
+        formats.add("MM/d/yyyy hh:mm a");
 
         // Figure out which of the valid formats the date is in
         for(String i: formats){
-             if(checkDateFormat(endTime, "MM/dd/yyyy HH:mm")){
+             if(checkDateFormat(endTime, i)){
                  validDateTimeFormat = true;
                  format = i;
                  break;
@@ -119,14 +118,18 @@ public class Appointment extends AbstractAppointment {
         }
 
         if (!validDateTimeFormat)
-            throw new WrongDateTimeFormat("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
+            throw new WrongDateTimeFormat("Please enter end time date in correct format of mm/dd/yyyy hh:mm AM/PM");
 
         // Set the endTime in Date Format
         setEndTime(endTime, format);
 
         // Take the end time in date format, and save it in string format
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale("en", "US"));
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT);
         this.EndTimeString = df.format(this.EndTime);
+        /*
+        this.EndTimeString = endTime;
+         */
     }
 
     /**
@@ -141,20 +144,20 @@ public class Appointment extends AbstractAppointment {
     /**
      * Sets the begin time of the <code>Appointment</code>
      *
-     * @param beginTime The time at which the appointment will begin (mm/dd/yyyy hh:mm format)
+     * @param beginTime The time at which the appointment will begin (mm/dd/yyyy hh:mm AM/PM format)
      */
     private void setBeginTimeString(String beginTime) {
         boolean validDateTimeFormat = false;
         String format = null;
         ArrayList<String> formats = new ArrayList<>();
-            formats.add("MM/dd/yyyy HH:mm");
-            formats.add("MM/dd/yyyy HH:mm");
-            formats.add("MM/d/yyyy HH:mm");
-            formats.add("MM/d/yyyy HH:mm");
+            formats.add("MM/dd/yyyy hh:mm a");
+            formats.add("MM/dd/yyyy hh:mm a");
+            formats.add("MM/d/yyyy hh:mm a");
+            formats.add("MM/d/yyyy hh:mm a");
 
         // Figure out which of the valid formats the date is in
         for(String i: formats){
-            if(checkDateFormat(beginTime, "MM/dd/yyyy HH:mm")){
+            if(checkDateFormat(beginTime, i)){
                 validDateTimeFormat = true;
                 format = i;
                 break;
@@ -170,14 +173,18 @@ public class Appointment extends AbstractAppointment {
         }
 
         if (!validDateTimeFormat)
-            throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm!");
+            throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm AM/PM!");
 
         // Set the endTime in Date Format
         setBeginTime(beginTime, format);
 
         // Take the begin time in date format, and save it in string format
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, new Locale("en", "US"));
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT);
         this.BeginTimeString = df.format(this.BeginTime);
+        /*
+        this.BeginTimeString = beginTime;
+         */
 
     }
 
@@ -219,10 +226,27 @@ public class Appointment extends AbstractAppointment {
     }
 
     /**
-     * Checks whether appointment's end time is after appointment's begin time
+     * Checks how a given <code>Appointment</code> should be sorted against <code>this</code>
+     *
+     * @param appointment Appointment to compare against
+     *
+     * Returns 1 if <code>this</code> is greater than appointment
+     * Returns -1 if <code>this</code> is less than appointment
+     * Returns 0 if <code>this</code> is equal to appointment
      */
-    private void checkDateOrder() {
-        if(!(this.EndTime.after(this.BeginTime)))
-            throw new UnsupportedOperationException("Please make sure appointment's end time is after its begin time");
+    public int compareTo(Appointment appointment) {
+        if(this.BeginTime.after(appointment.getBeginTime()))
+            return 1;
+        if(appointment.getBeginTime().after(this.BeginTime))
+            return -1;
+        if(this.EndTime.after(appointment.getEndTime()))
+            return 1;
+        if(appointment.getEndTime().after(this.EndTime))
+            return -1;
+        if(this.Description.compareTo(appointment.getDescription()) > 0)
+            return 1;
+        if(this.Description.compareTo(appointment.getDescription()) < 0)
+            return -1;
+        return 0;
     }
 }
