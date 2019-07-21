@@ -32,6 +32,7 @@ public class Appointment extends AbstractAppointment {
         this.setDescription(description);
         this.setBeginTimeString(beginTime);
         this.setEndTimeString(endTime);
+        this.checkDateOrder();
     }
 
     /**
@@ -67,17 +68,6 @@ public class Appointment extends AbstractAppointment {
      * Sets the end time of the <code>Appointment</code> in Date format
      */
     private void setBeginTime(String date, String format){
-        /*
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat(format);
-            formatter.setLenient(false);
-            formatter.parse(date);
-
-        } catch (ParseException e) {
-            System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
-        }
-        */
-
         SimpleDateFormat df = new SimpleDateFormat(format);
         df.setLenient(false);
         try {
@@ -85,8 +75,6 @@ public class Appointment extends AbstractAppointment {
         } catch (Exception e){
             System.out.println("Please enter end time date in correct format of mm/dd/yyyy hh:mm");
         }
-
-
     }
 
     /**
@@ -230,19 +218,11 @@ public class Appointment extends AbstractAppointment {
         return true;
     }
 
-    private Boolean checkDateOrder(String date1, String date2, String format) {
-        return _checkDateOrder(date1, date2, "mm/dd/yyyy HH:mm");
-    }
-
-
-    private Boolean _checkDateOrder(String date1, String date2, String format) {
-        try {
-            SimpleDateFormat formatter = new SimpleDateFormat(format);
-            Date parsedDate1 = formatter.parse(date1);
-            Date parsedDate2 = formatter.parse(date2);
-            return  (parsedDate2.after(parsedDate1));
-        } catch (ParseException e) {
-            throw new UnsupportedOperationException("Please enter dates in correct format of mm/dd/yyyy hh:mm");
-        }
+    /**
+     * Checks whether appointment's end time is after appointment's begin time
+     */
+    private void checkDateOrder() {
+        if(!(this.EndTime.after(this.BeginTime)))
+            throw new UnsupportedOperationException("Please make sure appointment's end time is after its begin time");
     }
 }

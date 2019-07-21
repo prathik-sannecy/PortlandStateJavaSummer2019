@@ -112,7 +112,7 @@ public class AppointmentTest {
     @Test
     public void forProject1GetDescriptionReturnsSetDescription() {
         String description = "Eat Candy";
-        Appointment appointment = new Appointment(description, "07/07/1298 03:32", "07/07/1298 03:32");
+        Appointment appointment = new Appointment(description, "07/07/1298 03:32", "07/08/1298 03:32");
         assertThat(appointment.getDescription(), is(description));
     }
 
@@ -120,7 +120,7 @@ public class AppointmentTest {
     // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
     @Test
     public void forProject3ReformatedBeginDate() {
-        String beginTime = "7/15/2019 14:39";
+        String beginTime = "7/15/0019 14:39";
         String endTime = "3/1/1894 1:1";
         Appointment appointment = new Appointment("dummy", beginTime, endTime);
         try {
@@ -129,6 +129,14 @@ public class AppointmentTest {
         } catch (Exception e){
 
         }
+    }
+
+    // After you set the begin and end time, get back the correct dates in getBeginTimeString and getEndTimeString
+    @Test(expected = UnsupportedOperationException.class)
+    public void forProject3BeginTimeMustPrecedeEndTime() {
+        String beginTime = "7/15/2019 14:39";
+        String endTime = "3/1/1894 1:1";
+        Appointment appointment = new Appointment("dummy", beginTime, endTime);
     }
 
 
