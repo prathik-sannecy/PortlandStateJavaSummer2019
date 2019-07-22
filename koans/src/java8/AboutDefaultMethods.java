@@ -2,6 +2,8 @@ package java8;
 
 import com.sandwich.koan.Koan;
 
+import java.util.ArrayList;
+
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
@@ -17,12 +19,12 @@ public class AboutDefaultMethods {
         };
         String capitalizedReversed = stringUtil.capitalize(
                 stringUtil.reverse("gnirut"));
-        assertEquals(capitalizedReversed, __);
+        assertEquals(capitalizedReversed, "TURING");
     }
 
     @Koan
     public void interfaceStaticMethod() {
-        assertEquals(StringUtil.enclose("me"), __);
+        assertEquals(StringUtil.enclose("me"), "[me]");
     }
 
     interface StringUtil {
