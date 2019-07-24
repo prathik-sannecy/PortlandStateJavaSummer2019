@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.util.concurrent.TimeUnit;
 
 /**
- * This class is represents a <code>TextDumper</code>.
+ * This class is represents a <code>PrettyPrinter</code>.
  */
 public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
 
@@ -78,6 +78,11 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
             }
         }
 
+    /**
+     * Finds the duration of an <code>Appointment</code> in minutes
+     *
+     * @param appointment Appointment to find the duration of
+     */
     private String appointmentDuration(Appointment appointment) {
         long diffInMillies = appointment.getEndTime().getTime() - appointment.getBeginTime().getTime();
         long diffInMIn = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
