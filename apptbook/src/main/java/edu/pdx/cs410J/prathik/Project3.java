@@ -30,6 +30,7 @@ public class Project3{
                 "\tendTime: When the appt ends (24-hour time)\n" +
                 "options are (options may appear in any order):\n" +
                 "\t-print: Prints a description of the new appointment\n" +
+                "\t-pretty: Pretty prints the appointment(book) to a file (or standard out if -)\n" +
                 "\t-README: Prints a README for this project and exits\n" +
                 "\t-textFile file: Where to read/write the appointment book\n" +
                 "Date and time should be in the format: mm/dd/yyyy hh:mm");
