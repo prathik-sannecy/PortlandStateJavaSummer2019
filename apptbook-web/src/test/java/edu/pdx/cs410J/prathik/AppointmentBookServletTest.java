@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -30,21 +30,23 @@ public class AppointmentBookServletTest {
 
     servlet.doGet(request, response);
 
-    int expectedWords = 0;
-    verify(pw).println(Messages.formatWordCount(expectedWords));
-    verify(response).setStatus(HttpServletResponse.SC_OK);
+    verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
 
   @Test
-  public void addOneWordToDictionary() throws ServletException, IOException {
+  public void addAppointmentToNewAppointmentBook() throws ServletException, IOException {
     AppointmentBookServlet servlet = new AppointmentBookServlet();
 
-    String word = "TEST WORD";
-    String definition = "TEST DEFINITION";
+    String owner = "TEST WORD";
+    String description = "TEST DEFINITION";
+    String beginTime = "01/01/2019 01:00 AM";
+    String endTime = "01/01/2019 02:00 AM";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter("word")).thenReturn(word);
-    when(request.getParameter("definition")).thenReturn(definition);
+    when(request.getParameter("owner")).thenReturn(owner);
+    when(request.getParameter("description")).thenReturn(description);
+    when(request.getParameter("beginTime")).thenReturn(beginTime);
+    when(request.getParameter("endTime")).thenReturn(endTime);
 
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter pw = mock(PrintWriter.class);
@@ -52,10 +54,38 @@ public class AppointmentBookServletTest {
     when(response.getWriter()).thenReturn(pw);
 
     servlet.doPost(request, response);
-    verify(pw).println(Messages.definedWordAs(word, definition));
     verify(response).setStatus(HttpServletResponse.SC_OK);
 
-    assertThat(servlet.getDefinition(word), equalTo(definition));
+    AppointmentBook book = servlet.getAppointmentBook(owner);
+    assertThat(book, is(notNullValue()));
+
+    assertThat(book.getAppointments(), hasSize(1));
+    assertThat(book.getOwnerName(), equalTo(owner));
+
+    Appointment appointment = book.getAppointments().iterator().next();
+    assertThat(appointment, is(notNullValue()));
+    assertThat(appointment.getDescription(), equalTo(description));
+    assertThat(appointment.getBeginTimeString(), equalTo(beginTime));
+    assertThat(appointment.getEndTimeString(), equalTo(endTime));
+
+    verify(pw).println(appointment.toString());
   }
 
+  @Test
+  public void lookingUpUnknownWordReturnNotFound() throws IOException, ServletException {
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter("word")).thenReturn("unknownWord");
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request, response);
+
+    verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+  }
 }
