@@ -75,13 +75,13 @@ public class AppointmentBookServlet extends HttpServlet
         Appointment appt = new Appointment("Dummy", beginTime, endTime);
 
 
-
-        for(Appointment appointment : this.appointmentBooks.get(owner).getAppointments()){
-            if (appointment.getBeginTime().after(appt.getBeginTime()) && appt.getEndTime().after(appointment.getEndTime())) {
-                response.getWriter().println(appointment.toString());
+        if(this.appointmentBooks.containsKey(owner)) {
+            for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
+                if (appointment.getBeginTime().after(appt.getBeginTime()) && appt.getEndTime().after(appointment.getEndTime())) {
+                    response.getWriter().println(appointment.toString());
+                }
             }
         }
-
         response.setStatus( HttpServletResponse.SC_OK);
     }
 
