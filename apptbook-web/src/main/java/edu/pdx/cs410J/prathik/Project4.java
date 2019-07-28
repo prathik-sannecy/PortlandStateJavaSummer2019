@@ -157,14 +157,13 @@ public class Project4 {
 
         String message;
         try {
-            message = client.addAppointment(owner, description, beginTime, endTime);
+             message = client.addAppointment(owner, description, beginTime, endTime);
 
         } catch ( IOException ex ) {
             System.err.println("While contacting server: " + ex);
             return;
         }
 
-        System.out.println(message);
 
         System.exit(0);
     }

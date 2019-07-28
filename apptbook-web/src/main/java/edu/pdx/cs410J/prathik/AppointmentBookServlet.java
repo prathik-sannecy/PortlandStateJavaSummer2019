@@ -44,8 +44,45 @@ public class AppointmentBookServlet extends HttpServlet
 //            writeAllDictionaryEntries(response);
 //        }
 
+
+
         response.setContentType( "text/plain" );
-        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        String parameter = OWNER_PARAMETER;
+        String owner = getRequiredParameter(request, response, parameter);
+        if (owner == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        String beginTime = getRequiredParameter(request, response, BEGIN_TIME_PARAMETER);
+        if (beginTime == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        String endTime = getRequiredParameter(request, response, END_TIME_PARAMETER);
+        if (endTime == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        String description = getRequiredParameter(request, response, DESCRIPTION_PARAMETER);
+        if (description == null) {
+            // return back appointmentBook using PrettyPrinter
+        }
+
+        Appointment appt = new Appointment("Dummy", beginTime, endTime);
+
+
+
+        for(Appointment appointment : this.appointmentBooks.get(owner).getAppointments()){
+            if (appointment.getBeginTime().after(appt.getBeginTime()) && appt.getEndTime().after(appointment.getEndTime())) {
+                response.getWriter().println(appointment.toString());
+            }
+        }
+
+        response.setStatus( HttpServletResponse.SC_OK);
     }
 
     /**
@@ -71,8 +108,14 @@ public class AppointmentBookServlet extends HttpServlet
         String endTime = getRequiredParameter(request, response, END_TIME_PARAMETER);
         if (endTime == null) return;
 
-        AppointmentBook book = new AppointmentBook(owner);
-        this.appointmentBooks.put(owner, book);
+        AppointmentBook book;
+        if(!this.appointmentBooks.containsKey(owner)) {
+            book = new AppointmentBook(owner);
+            this.appointmentBooks.put(owner, book);
+        }
+        else {
+            book = this.appointmentBooks.get(owner);
+        }
 
         Appointment appt = new Appointment(description, beginTime, endTime);
         book.addAppointment(appt);
