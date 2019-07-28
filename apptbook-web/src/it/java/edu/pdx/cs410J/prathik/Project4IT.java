@@ -33,24 +33,6 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
     }
 
-    @Test
-    public void test2EmptyServer() {
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
-        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatWordCount(0)));
-    }
-
-    @Test(expected = AppointmentBookRestClient.AppointmentBookRestException.class)
-    public void test3NoDefinitionsThrowsAppointmentBookRestException() throws Throwable {
-        String word = "WORD";
-        try {
-            MainMethodResult result = invokeMain(Project4.class, HOSTNAME, PORT, word);
-
-        } catch (IllegalArgumentException ex) {
-            throw ex.getCause().getCause();
-        }
-    }
 
     @Test
     public void test4AddAppointment() {
@@ -59,7 +41,7 @@ public class Project4IT extends InvokeMainTestCase {
         String beginTime = "01/01/2019 01:00 AM";
         String endTime = "01/01/2019 02:00 AM";
 
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, owner, description, beginTime, endTime );
+        MainMethodResult result = invokeMain( Project4.class, "-host", HOSTNAME, "-port", PORT, owner, description, "01/01/2019", "01:00", "AM", "01/01/2019", "02:00", "AM" );
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
         String out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString(description));
