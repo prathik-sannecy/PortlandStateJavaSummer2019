@@ -54,10 +54,10 @@ public class Project4IT extends InvokeMainTestCase {
 
     @Test
     public void test4AddAppointment() {
-        String owner = "Owner";
-        String description = "Do Stuff";
-        String beginTime = "Now";
-        String endTime = "Later";
+        String owner = "TEST WORD";
+        String description = "TEST DEFINITION";
+        String beginTime = "01/01/2019 01:00 AM";
+        String endTime = "01/01/2019 02:00 AM";
 
         MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, owner, description, beginTime, endTime );
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));

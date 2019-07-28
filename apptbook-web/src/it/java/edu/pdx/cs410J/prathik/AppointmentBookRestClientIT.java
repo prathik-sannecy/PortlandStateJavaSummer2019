@@ -44,8 +44,8 @@ public class AppointmentBookRestClientIT {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String owner = "TEST WORD";
     String description = "TEST DEFINITION";
-    String beginTime = "Now";
-    String endTime = "Later";
+    String beginTime = "01/01/2019 01:00 AM";
+    String endTime = "01/01/2019 02:00 AM";
 
     String appointmentToString = client.addAppointment(owner, description, beginTime, endTime);
 

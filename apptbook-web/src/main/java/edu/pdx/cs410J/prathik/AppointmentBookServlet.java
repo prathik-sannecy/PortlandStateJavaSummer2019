@@ -139,7 +139,7 @@ public class AppointmentBookServlet extends HttpServlet
     }
 
     @VisibleForTesting
-    AppointmentBook getAppointmentBook(String word) {
-        return this.appointmentBooks.get(word);
+    AppointmentBook getAppointmentBook(String owner) {
+        return this.appointmentBooks.get(owner);
     }
 }
