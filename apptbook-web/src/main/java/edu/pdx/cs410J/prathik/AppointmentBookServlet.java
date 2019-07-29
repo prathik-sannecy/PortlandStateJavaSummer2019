@@ -55,14 +55,9 @@ public class AppointmentBookServlet extends HttpServlet
             return;
         }
 
-        String beginTime = getRequiredParameter(request, response, BEGIN_TIME_PARAMETER);
+        String beginTime = getParameter(BEGIN_TIME_PARAMETER, request);
+        String endTime = getParameter(END_TIME_PARAMETER, request);
 
-        String endTime = getRequiredParameter(request, response, END_TIME_PARAMETER);
-
-        String description = getRequiredParameter(request, response, DESCRIPTION_PARAMETER);
-        if (description == null) {
-            // return back appointmentBook using PrettyPrinter
-        }
 
 
         PrettyPrinter prettyPrinter = new PrettyPrinter("-", response.getWriter());

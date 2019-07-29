@@ -515,4 +515,141 @@ public class AppointmentBookServletTest {
     assertThat(s.hasNext(), equalTo(false));
 
   }
+
+  @Test
+  public void supportsMultipleOwners() throws IOException, ServletException {
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+
+    // Post 1 to owner 1
+    String owner = "owner1";
+    String description1 = "TEST DEFINITION1";
+    String beginTime = "01/01/2019 01:00 AM";
+    String endTime = "01/01/2019 02:00 AM";
+
+    HttpServletRequest request1 = mock(HttpServletRequest.class);
+    when(request1.getParameter("owner")).thenReturn(owner);
+    when(request1.getParameter("description")).thenReturn(description1);
+    when(request1.getParameter("beginTime")).thenReturn(beginTime);
+    when(request1.getParameter("endTime")).thenReturn(endTime);
+
+    HttpServletResponse response1 = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+
+    when(response1.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request1, response1);
+    verify(response1).setStatus(HttpServletResponse.SC_OK);
+
+
+
+    // Post 2 to owner 1
+    beginTime = "01/02/2019 01:00 AM";
+    endTime = "01/02/2019 02:00 AM";
+    String description2 = "TEST DEFINITION2";
+
+    HttpServletRequest request2 = mock(HttpServletRequest.class);
+    when(request2.getParameter("owner")).thenReturn(owner);
+    when(request2.getParameter("description")).thenReturn(description2);
+    when(request2.getParameter("beginTime")).thenReturn(beginTime);
+    when(request2.getParameter("endTime")).thenReturn(endTime);
+
+    HttpServletResponse response2 = mock(HttpServletResponse.class);
+    when(response2.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request2, response2);
+    verify(response2).setStatus(HttpServletResponse.SC_OK);
+
+
+
+
+
+
+    // Post 1 to owner 2
+    String owner2 = "owner2";
+    beginTime = "01/02/2019 01:00 AM";
+    endTime = "01/02/2019 02:00 AM";
+    String description3 = "TEST DEFINITION3";
+
+    HttpServletRequest request3 = mock(HttpServletRequest.class);
+    when(request3.getParameter("owner")).thenReturn(owner2);
+    when(request3.getParameter("description")).thenReturn(description3);
+    when(request3.getParameter("beginTime")).thenReturn(beginTime);
+    when(request3.getParameter("endTime")).thenReturn(endTime);
+
+    HttpServletResponse response3 = mock(HttpServletResponse.class);
+    when(response3.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request3, response3);
+    verify(response3).setStatus(HttpServletResponse.SC_OK);
+
+
+
+
+
+    // Get from owner 1
+    HttpServletRequest request4 = mock(HttpServletRequest.class);
+    when(request4.getParameter("owner")).thenReturn(owner);
+
+
+    String file_name = "get";
+    PrintWriter pw4 = new PrintWriter(file_name);
+
+    HttpServletResponse response4 = mock(HttpServletResponse.class);
+    when(response4.getWriter()).thenReturn(pw4);
+
+    servlet.doGet(request4, response4);
+    verify(response4).setStatus(HttpServletResponse.SC_OK);
+    pw4.close();
+
+
+
+
+
+
+    File file = new File(file_name);
+
+    Scanner s = new Scanner((file));
+    s.useDelimiter("[\\n]");
+//    assertThat(s.next(), containsString(beginTime));
+//    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("2 appointments"));
+    assertThat(s.next(), containsString(description1));
+    assertThat(s.next(), containsString(description2));
+    assertThat(s.hasNext(), equalTo(false));
+    s.close();
+
+
+
+    // Get from owner 2
+    HttpServletRequest request5 = mock(HttpServletRequest.class);
+    when(request5.getParameter("owner")).thenReturn(owner2);
+
+
+    file_name = "get";
+    PrintWriter pw5 = new PrintWriter(file_name);
+
+    HttpServletResponse response5 = mock(HttpServletResponse.class);
+    when(response5.getWriter()).thenReturn(pw5);
+
+    servlet.doGet(request5, response5);
+    verify(response5).setStatus(HttpServletResponse.SC_OK);
+    pw4.close();
+
+
+
+
+
+
+    file = new File(file_name);
+
+    s = new Scanner((file));
+    s.useDelimiter("[\\n]");
+//    assertThat(s.next(), containsString(beginTime));
+//    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("1 appointments"));
+    assertThat(s.next(), containsString(description3));
+    assertThat(s.hasNext(), equalTo(false));
+
+  }
 }

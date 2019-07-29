@@ -142,29 +142,31 @@ public class Project4 {
             System.exit(1);
         }
 
-        // Set up the newly created appointment
-        Appointment appointment = new Appointment(description, beginTime, endTime);
 
-        // Create appointmentBook object in case pretty flag is used
-        AppointmentBook appointmentBook = null;
-
-        // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
-        if (printFlag) {
-            print(appointment);
-        }
 
         AppointmentBookRestClient client = new AppointmentBookRestClient(hostname, port);
 
         String message;
         try {
-             message = client.addAppointment(owner, description, beginTime, endTime);
+
+            if(searchFlag){
+                System.out.print(client.getAppointments(owner, beginTime, endTime));
+            }
+            else {
+                // Set up the newly created appointment
+                Appointment appointment = new Appointment(description, beginTime, endTime);
+
+                // If the optional print flag was set, print out the contents of the new appointment using the "toString" methods
+                if (printFlag) {
+                    print(appointment);
+                }
+                message = client.addAppointment(owner, description, beginTime, endTime);
+            }
 
         } catch ( IOException ex ) {
             System.err.println("While contacting server: " + ex);
             return;
         }
-
-
         System.exit(0);
     }
 
