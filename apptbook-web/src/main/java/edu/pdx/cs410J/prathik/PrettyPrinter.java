@@ -2,10 +2,7 @@ package edu.pdx.cs410J.prathik;
 
 import edu.pdx.cs410J.AppointmentBookDumper;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,21 +11,21 @@ import java.util.concurrent.TimeUnit;
 public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
 
     String textFile = "";
-    private BufferedWriter outputStreamWriter;
+    private PrintWriter printWriter;
 
     /**
      * Creates a new <code>PrettyPrinter</code>
      *
      * @param textFile Textfile where to print the Appointmentbook. [-] means print to standard out
      */
-    PrettyPrinter(String textFile, OutputStreamWriter outputStreamWriter) {
+    PrettyPrinter(String textFile, PrintWriter printWriter) {
         super();
 
         if (!CheckValidFileName(textFile))
             throw new InvalidFileName("Please provide a valid file name");
 
         this.textFile = textFile;
-        this.outputStreamWriter = new BufferedWriter(outputStreamWriter);
+        this.printWriter = new PrintWriter(printWriter);
     }
 
     /**
@@ -52,11 +49,19 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
         int appointmentCounter = 1;
         // Print to standard out if textfile is -
         if (this.textFile.equals("-")) {
-            System.out.println(appointmentBook.toString());
+
+            try {
+                this.printWriter.write(appointmentBook.toString() + "\n");
+                this.printWriter.flush();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+
             for (Appointment appointment : appointmentBook.getAppointments()) {
                 try {
-                    this.outputStreamWriter.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString());
-                    this.outputStreamWriter.flush();
+                    this.printWriter.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString() + "\n");
+                    this.printWriter.flush();
                 } catch (Exception e){
                     e.printStackTrace();
                 }

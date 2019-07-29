@@ -207,7 +207,14 @@ public class AppointmentBookServletTest {
 
 
     File file = new File(file_name);
-    assertThat(file.length(), is((long)0));
+
+    Scanner s = new Scanner((file));
+    s.useDelimiter("[\\n]");
+//    assertThat(s.next(), containsString(beginTime));
+//    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("0 appointments"));
+    assertThat(s.hasNext(), equalTo(false));
+
 
   }
 
@@ -277,12 +284,12 @@ public class AppointmentBookServletTest {
 
 
     File file = new File(file_name);
-    assertThat(file.length(), greaterThan((long)0));
 
     Scanner s = new Scanner((file));
     s.useDelimiter("[\\n]");
 //    assertThat(s.next(), containsString(beginTime));
 //    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("1 appointments"));
     assertThat(s.next(), containsString(description2));
     assertThat(s.hasNext(), equalTo(false));
 
@@ -354,12 +361,12 @@ public class AppointmentBookServletTest {
 
 
     File file = new File(file_name);
-    assertThat(file.length(), greaterThan((long)0));
 
     Scanner s = new Scanner((file));
     s.useDelimiter("[\\n]");
 //    assertThat(s.next(), containsString(beginTime));
 //    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("2 appointments"));
     assertThat(s.next(), containsString(description1));
     assertThat(s.next(), containsString(description2));
     assertThat(s.hasNext(), equalTo(false));
@@ -497,12 +504,12 @@ public class AppointmentBookServletTest {
     pw3.close();
 
     File file = new File(file_name);
-    assertThat(file.length(), greaterThan((long)0));
 
     Scanner s = new Scanner((file));
     s.useDelimiter("[\\n]");
 //    assertThat(s.next(), containsString(beginTime));
 //    assertThat(s.next(), containsString(endTime));
+    assertThat(s.next(), containsString("2 appointments"));
     assertThat(s.next(), containsString(description1));
     assertThat(s.next(), containsString(description2));
     assertThat(s.hasNext(), equalTo(false));

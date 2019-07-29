@@ -65,24 +65,23 @@ public class AppointmentBookServlet extends HttpServlet
         }
 
 
-
+        PrettyPrinter prettyPrinter = new PrettyPrinter("-", response.getWriter());
 
         if(this.appointmentBooks.containsKey(owner)) {
 
             if (beginTime == null && endTime == null){
-                for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
-                    response.getWriter().println(appointment.toString());
-                }
-
+                prettyPrinter.dump(this.appointmentBooks.get(owner));
             }
             else {
 
                 Appointment appt = new Appointment("Dummy", beginTime, endTime);
+                AppointmentBook shortenedAppointmentBook = new AppointmentBook(owner);
                 for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
                     if (appointment.getBeginTime().compareTo(appt.getBeginTime()) >= 0 && appt.getEndTime().compareTo(appointment.getEndTime()) >= 0) {
-                        response.getWriter().println(appointment.toString());
+                        shortenedAppointmentBook.addAppointment(appointment);
                     }
                 }
+                prettyPrinter.dump(shortenedAppointmentBook);
             }
 
         }
