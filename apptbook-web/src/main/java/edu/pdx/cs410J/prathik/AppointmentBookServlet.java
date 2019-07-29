@@ -56,31 +56,35 @@ public class AppointmentBookServlet extends HttpServlet
         }
 
         String beginTime = getRequiredParameter(request, response, BEGIN_TIME_PARAMETER);
-        if (beginTime == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
 
         String endTime = getRequiredParameter(request, response, END_TIME_PARAMETER);
-        if (endTime == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
 
         String description = getRequiredParameter(request, response, DESCRIPTION_PARAMETER);
         if (description == null) {
             // return back appointmentBook using PrettyPrinter
         }
 
-        Appointment appt = new Appointment("Dummy", beginTime, endTime);
+
 
 
         if(this.appointmentBooks.containsKey(owner)) {
-            for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
-                if (appointment.getBeginTime().after(appt.getBeginTime()) && appt.getEndTime().after(appointment.getEndTime())) {
+
+            if (beginTime == null && endTime == null){
+                for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
                     response.getWriter().println(appointment.toString());
                 }
+
             }
+            else {
+
+                Appointment appt = new Appointment("Dummy", beginTime, endTime);
+                for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
+                    if (appointment.getBeginTime().compareTo(appt.getBeginTime()) >= 0 && appt.getEndTime().compareTo(appointment.getEndTime()) >= 0) {
+                        response.getWriter().println(appointment.toString());
+                    }
+                }
+            }
+
         }
         response.setStatus( HttpServletResponse.SC_OK);
     }

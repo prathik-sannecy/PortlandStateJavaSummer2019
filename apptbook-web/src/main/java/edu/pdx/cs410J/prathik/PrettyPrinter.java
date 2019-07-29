@@ -2,8 +2,10 @@ package edu.pdx.cs410J.prathik;
 
 import edu.pdx.cs410J.AppointmentBookDumper;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,19 +14,21 @@ import java.util.concurrent.TimeUnit;
 public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
 
     String textFile = "";
+    private BufferedWriter outputStreamWriter;
 
     /**
      * Creates a new <code>PrettyPrinter</code>
      *
      * @param textFile Textfile where to print the Appointmentbook. [-] means print to standard out
      */
-    PrettyPrinter(String textFile) {
+    PrettyPrinter(String textFile, OutputStreamWriter outputStreamWriter) {
         super();
 
         if (!CheckValidFileName(textFile))
             throw new InvalidFileName("Please provide a valid file name");
 
         this.textFile = textFile;
+        this.outputStreamWriter = new BufferedWriter(outputStreamWriter);
     }
 
     /**
@@ -50,33 +54,38 @@ public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
         if (this.textFile.equals("-")) {
             System.out.println(appointmentBook.toString());
             for (Appointment appointment : appointmentBook.getAppointments()) {
-                System.out.println("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString());
+                try {
+                    this.outputStreamWriter.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString());
+                    this.outputStreamWriter.flush();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 appointmentCounter++;
             }
         }
         // Otherwise write to file specified
         else{
-                File f = new File(this.textFile);
-                // If textFiles exists, delete and then recreate it
-                if (f.isFile()) {
-                    f.delete();
-                }
-                try {
-                    f.createNewFile();
-                    FileWriter fw = new FileWriter(textFile);
+            File f = new File(this.textFile);
+            // If textFiles exists, delete and then recreate it
+            if (f.isFile()) {
+                f.delete();
+            }
+            try {
+                f.createNewFile();
+                FileWriter fw = new FileWriter(textFile);
 
-                    fw.write(appointmentBook.toString() + "\n");
-                    for (Appointment appointment : appointmentBook.getAppointments()) {
-                        fw.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString() + "\n");
-                        appointmentCounter++;
-                    }
-
-                    fw.close();
-                } catch (Exception e) {
-                    throw new InvalidFileName("Please provide a valid file name using SetFile method");
+                fw.write(appointmentBook.toString() + "\n");
+                for (Appointment appointment : appointmentBook.getAppointments()) {
+                    fw.write("Appointment" + appointmentCounter + " Duration " + appointmentDuration(appointment) + " minutes: " + appointment.toString() + "\n");
+                    appointmentCounter++;
                 }
+
+                fw.close();
+            } catch (Exception e) {
+                throw new InvalidFileName("Please provide a valid file name using SetFile method");
             }
         }
+    }
 
     /**
      * Finds the duration of an <code>Appointment</code> in minutes
