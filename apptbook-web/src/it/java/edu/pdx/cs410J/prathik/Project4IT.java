@@ -36,6 +36,11 @@ public class Project4IT extends InvokeMainTestCase {
 
     @Test
     public void test4AddAppointment() {
+        try {
+            test0RemoveAllMappings();
+        } catch(Exception e) {
+
+        }
         String owner = "TEST WORD";
         String description = "TEST DEFINITION";
         String beginTime = "01/01/2019 01:00 AM";
@@ -51,6 +56,11 @@ public class Project4IT extends InvokeMainTestCase {
 
     @Test
     public void getAppointments() {
+        try {
+            test0RemoveAllMappings();
+        } catch(Exception e) {
+
+        }
         String owner = "TEST WORD";
         String description = "getAppointments";
         String beginTime = "01/01/2019 01:00 AM";
@@ -78,6 +88,11 @@ public class Project4IT extends InvokeMainTestCase {
 
     @Test
     public void getAppointmentsMultipleAppointments() {
+        try {
+            test0RemoveAllMappings();
+        } catch(Exception e) {
+
+        }
         String owner = "TEST WORD1";
         String description = "getAppointmentsMultipleAppointments1";
         String beginTime = "01/01/2019 01:00 AM";
@@ -112,6 +127,11 @@ public class Project4IT extends InvokeMainTestCase {
 
     @Test
     public void getAppointmentsMultipleOwners() {
+        try {
+            test0RemoveAllMappings();
+        } catch(Exception e) {
+
+        }
         String owner = "TEST WORD1";
         String description = "getAppointmentsMultipleOwners1";
         String beginTime = "01/01/2019 01:00 AM";

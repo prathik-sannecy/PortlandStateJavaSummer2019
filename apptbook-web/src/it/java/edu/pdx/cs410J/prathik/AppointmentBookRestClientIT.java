@@ -33,13 +33,6 @@ public class AppointmentBookRestClientIT {
   }
 
   @Test
-  public void test1EmptyServerContainsNoDictionaryEntries() throws IOException {
-    AppointmentBookRestClient client = newAppointmentBookRestClient();
-    Map<String, String> dictionary = client.getAllDictionaryEntries();
-    assertThat(dictionary.size(), equalTo(0));
-  }
-
-  @Test
   public void test2OneAppointment() throws IOException {
     AppointmentBookRestClient client = newAppointmentBookRestClient();
     String owner = "TEST WORD";

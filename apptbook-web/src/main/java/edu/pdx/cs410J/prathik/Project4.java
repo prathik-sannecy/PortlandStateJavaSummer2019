@@ -142,11 +142,8 @@ public class Project4 {
             System.exit(1);
         }
 
-
-
         AppointmentBookRestClient client = new AppointmentBookRestClient(hostname, port);
 
-        String message;
         try {
 
             if(searchFlag){
@@ -160,7 +157,7 @@ public class Project4 {
                 if (printFlag) {
                     print(appointment);
                 }
-                message = client.addAppointment(owner, description, beginTime, endTime);
+                client.addAppointment(owner, description, beginTime, endTime);
             }
 
         } catch ( IOException ex ) {
@@ -171,22 +168,23 @@ public class Project4 {
     }
 
     /**
-     * Prints a description of <code>Project2 program</code>
+     * Prints a description of <code>Project4 program</code>
      */
     private static void README(){
         System.out.println("This program implements an appointment book. \n" +
-                "The user provides the details of an appointment, and this program can print it back in a user-friendly manner.\n" +
-                "Also allows to store/load all pre-existing appointments into an appointment book\n\n" +
+                "The user provides the details of an appointment, and this program can add it to the corresponding appointment book on the server.\n" +
+                "Also allows to search an appointment book for appointments within a date/time range\n\n" +
                 "args are (in this order):\n" +
                 "\towner: The person whose owns the appt book. Use double-quotes for multi-word\n" +
-                "\tdescription: A description of the appointment. Use double-quotes for multi-word\n" +
-                "\tbeginTime: When the appt begins (24-hour time)\n" +
-                "\tendTime: When the appt ends (24-hour time)\n" +
+                "\tdescription: A description of the appointment. Use double-quotes for multi-word (optional with -search)\n" +
+                "\tbeginTime: When the appt begins (12-hour time)\n" +
+                "\tendTime: When the appt ends (12-hour time)\n" +
                 "options are (options may appear in any order):\n" +
+                "\t-search: Search appointment book for appointments within a date/time range\n" +
                 "\t-print: Prints a description of the new appointment\n" +
-                "\t-pretty: Pretty prints the appointment(book) to a file (or standard out if -)\n" +
                 "\t-README: Prints a README for this project and exits\n" +
-                "\t-textFile file: Where to read/write the appointment book\n" +
+                "\t-host: Host machine where appointment should be added to its appointment book\n" +
+                "\t-port: Host machine HTTP port\n" +
                 "Date and time should be in the format: mm/dd/yyyy hh:mm");
         System.exit(0);
     }

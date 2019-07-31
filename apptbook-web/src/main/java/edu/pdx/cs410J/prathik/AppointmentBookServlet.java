@@ -13,11 +13,9 @@ import java.util.Map;
 
 /**
  * This servlet ultimately provides a REST API for working with an
- * <code>AppointmentBook</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple key/value pairs.
+ * <code>AppointmentBook</code>.
  */
-public class AppointmentBookServlet extends HttpServlet
-{
+public class AppointmentBookServlet extends HttpServlet {
     static final String OWNER_PARAMETER = "owner";
     static final String DESCRIPTION_PARAMETER = "description";
     static final String BEGIN_TIME_PARAMETER = "beginTime";
@@ -26,48 +24,29 @@ public class AppointmentBookServlet extends HttpServlet
     private final Map<String, AppointmentBook> appointmentBooks = new HashMap<>();
 
     /**
-     * Handles an HTTP GET request from a client by writing the definition of the
-     * word specified in the "word" HTTP parameter to the HTTP response.  If the
-     * "word" parameter is not specified, all of the entries in the dictionary
-     * are written to the HTTP response.
+     * Handles an HTTP GET request from a client by returning the contents of the owner's appointment book.
+     * If the begin time and end time are specified, then only return appointments within that range
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-//        response.setContentType( "text/plain" );
-//
-//        String word = getParameter( WORD_PARAMETER, request );
-//        if (word != null) {
-//            writeDefinition(word, response);
-//
-//        } else {
-//            writeAllDictionaryEntries(response);
-//        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
 
-
-
-        response.setContentType( "text/plain" );
-
+        // owner is required, begin time and end time are not
         String parameter = OWNER_PARAMETER;
         String owner = getRequiredParameter(request, response, parameter);
         if (owner == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
         String beginTime = getParameter(BEGIN_TIME_PARAMETER, request);
         String endTime = getParameter(END_TIME_PARAMETER, request);
 
-
-
         PrettyPrinter prettyPrinter = new PrettyPrinter("-", response.getWriter());
 
-        if(this.appointmentBooks.containsKey(owner)) {
-
-            if (beginTime == null && endTime == null){
+        if (this.appointmentBooks.containsKey(owner)) {
+            if (beginTime == null && endTime == null) {
                 prettyPrinter.dump(this.appointmentBooks.get(owner));
-            }
-            else {
+            } else {
 
                 Appointment appt = new Appointment("Dummy", beginTime, endTime);
                 AppointmentBook shortenedAppointmentBook = new AppointmentBook(owner);
@@ -78,20 +57,16 @@ public class AppointmentBookServlet extends HttpServlet
                 }
                 prettyPrinter.dump(shortenedAppointmentBook);
             }
-
         }
-        response.setStatus( HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
-     * Handles an HTTP POST request by storing the dictionary entry for the
-     * "word" and "definition" request parameters.  It writes the dictionary
-     * entry to the HTTP response.
+     * Handles an HTTP POST request by storing the appointment into the appropriate owner's appointment book
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-        response.setContentType( "text/plain" );
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
 
         String parameter = OWNER_PARAMETER;
         String owner = getRequiredParameter(request, response, parameter);
@@ -107,11 +82,10 @@ public class AppointmentBookServlet extends HttpServlet
         if (endTime == null) return;
 
         AppointmentBook book;
-        if(!this.appointmentBooks.containsKey(owner)) {
+        if (!this.appointmentBooks.containsKey(owner)) {
             book = new AppointmentBook(owner);
             this.appointmentBooks.put(owner, book);
-        }
-        else {
+        } else {
             book = this.appointmentBooks.get(owner);
         }
 
@@ -119,10 +93,12 @@ public class AppointmentBookServlet extends HttpServlet
         book.addAppointment(appt);
 
         response.getWriter().println(appt.toString());
-
-        response.setStatus( HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    /**
+     * Throws an error if a parameter is missing
+     */
     private String getRequiredParameter(HttpServletRequest request, HttpServletResponse response, String parameter) throws IOException {
         String value = getParameter(parameter, request);
         if (value == null) {
@@ -153,12 +129,11 @@ public class AppointmentBookServlet extends HttpServlet
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.
-     *
+     * <p>
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
-    private void missingRequiredParameter( HttpServletResponse response, String parameterName )
-        throws IOException
-    {
+    private void missingRequiredParameter(HttpServletResponse response, String parameterName)
+            throws IOException {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
     }
@@ -167,16 +142,16 @@ public class AppointmentBookServlet extends HttpServlet
      * Returns the value of the HTTP request parameter with the given name.
      *
      * @return <code>null</code> if the value of the parameter is
-     *         <code>null</code> or is the empty string
+     * <code>null</code> or is the empty string
      */
     private String getParameter(String name, HttpServletRequest request) {
-      String value = request.getParameter(name);
-      if (value == null || "".equals(value)) {
-        return null;
+        String value = request.getParameter(name);
+        if (value == null || "".equals(value)) {
+            return null;
 
-      } else {
-        return value;
-      }
+        } else {
+            return value;
+        }
     }
 
     @VisibleForTesting
