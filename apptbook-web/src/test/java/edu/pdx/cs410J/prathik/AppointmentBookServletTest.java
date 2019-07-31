@@ -73,6 +73,7 @@ public class AppointmentBookServletTest {
     verify(pw).println(appointment.toString());
   }
 
+
   @Test
   public void lookingUpUnknownWordReturnNotFound() throws IOException, ServletException {
     AppointmentBookServlet servlet = new AppointmentBookServlet();

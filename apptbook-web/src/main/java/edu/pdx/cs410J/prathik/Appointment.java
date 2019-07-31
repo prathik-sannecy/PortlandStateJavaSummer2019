@@ -211,6 +211,8 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
 
         } catch (ParseException e) {
             return false;
+        } catch (NullPointerException e) {
+            throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm AM/PM!");
         }
 
         return true;
