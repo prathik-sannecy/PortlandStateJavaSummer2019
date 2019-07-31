@@ -42,6 +42,11 @@ public class Project4 {
         portFlag = Arrays.asList(args).contains("-port");
         searchFlag = Arrays.asList(args).contains("-search");
 
+        if((hostFlag != portFlag)){
+            System.err.println("Host name needs a port number, and vice versa!");
+            System.exit(1);
+        }
+
         // If Readme, print readme and exit
         if (READMEFlag) {
             README();

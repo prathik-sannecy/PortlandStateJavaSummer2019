@@ -439,7 +439,10 @@ public class AppointmentBookServletTest {
     pw3.close();
 
     File file = new File(file_name);
-    assertThat(file.length(), is((long)0));
+    Scanner s = new Scanner((file));
+    s.useDelimiter("[\\n]");
+    assertThat(s.next(), containsString("owner does not exist"));
+
 
   }
 
@@ -590,22 +593,14 @@ public class AppointmentBookServletTest {
     // Get from owner 1
     HttpServletRequest request4 = mock(HttpServletRequest.class);
     when(request4.getParameter("owner")).thenReturn(owner);
-
-
     String file_name = "get";
     PrintWriter pw4 = new PrintWriter(file_name);
-
     HttpServletResponse response4 = mock(HttpServletResponse.class);
     when(response4.getWriter()).thenReturn(pw4);
 
     servlet.doGet(request4, response4);
     verify(response4).setStatus(HttpServletResponse.SC_OK);
     pw4.close();
-
-
-
-
-
 
     File file = new File(file_name);
 
@@ -625,7 +620,6 @@ public class AppointmentBookServletTest {
     HttpServletRequest request5 = mock(HttpServletRequest.class);
     when(request5.getParameter("owner")).thenReturn(owner2);
 
-
     file_name = "get";
     PrintWriter pw5 = new PrintWriter(file_name);
 
@@ -635,11 +629,6 @@ public class AppointmentBookServletTest {
     servlet.doGet(request5, response5);
     verify(response5).setStatus(HttpServletResponse.SC_OK);
     pw4.close();
-
-
-
-
-
 
     file = new File(file_name);
 
@@ -652,4 +641,51 @@ public class AppointmentBookServletTest {
     assertThat(s.hasNext(), equalTo(false));
 
   }
+
+  @Test
+  public void badlyFormattedData() throws ServletException, IOException {
+    AppointmentBookServlet servlet = new AppointmentBookServlet();
+
+
+
+
+    String owner = "owner1";
+    String description1 = "TEST DEFINITION1";
+    String badBeginTime = "01/01/219 01:00 AM"; // should throw error
+    String endTime = "01/01/2019 02:00 AM";
+
+    HttpServletRequest request1 = mock(HttpServletRequest.class);
+    when(request1.getParameter("owner")).thenReturn(owner);
+    when(request1.getParameter("description")).thenReturn(description1);
+    when(request1.getParameter("beginTime")).thenReturn(badBeginTime);
+    when(request1.getParameter("endTime")).thenReturn(endTime);
+
+    HttpServletResponse response1 = mock(HttpServletResponse.class);
+
+    String file_name = "get";
+    PrintWriter pw = new PrintWriter(file_name);
+
+    when(response1.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request1, response1);
+    pw.close();
+
+
+
+    File file = new File(file_name);
+
+    Scanner s = new Scanner((file));
+    s.useDelimiter("[\\n]");
+//    assertThat(s.next(), containsString(beginTime));
+//    assertThat(s.next(), containsString(endTime));
+//    verify(response1).setStatus(HttpServletResponse.SC_OK);
+//    assertThat(s.next(), containsString("must be in"));
+
+
+
+
+
+  }
+
+
 }

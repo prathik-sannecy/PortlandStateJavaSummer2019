@@ -47,16 +47,23 @@ public class AppointmentBookServlet extends HttpServlet {
             if (beginTime == null && endTime == null) {
                 prettyPrinter.dump(this.appointmentBooks.get(owner));
             } else {
+                try {
+                    Appointment appt = new Appointment("Dummy", beginTime, endTime);
 
-                Appointment appt = new Appointment("Dummy", beginTime, endTime);
-                AppointmentBook shortenedAppointmentBook = new AppointmentBook(owner);
-                for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
-                    if (appointment.getBeginTime().compareTo(appt.getBeginTime()) >= 0 && appt.getEndTime().compareTo(appointment.getEndTime()) >= 0) {
-                        shortenedAppointmentBook.addAppointment(appointment);
+                    AppointmentBook shortenedAppointmentBook = new AppointmentBook(owner);
+                    for (Appointment appointment : this.appointmentBooks.get(owner).getAppointments()) {
+                        if (appointment.getBeginTime().compareTo(appt.getBeginTime()) >= 0 && appt.getEndTime().compareTo(appointment.getEndTime()) >= 0) {
+                            shortenedAppointmentBook.addAppointment(appointment);
+                        }
                     }
+                    prettyPrinter.dump(shortenedAppointmentBook);
+                } catch (WrongDateTimeFormat e) {
+                    response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, "begin time and end time must be in mm/dd/yyyy hh:mm format");
+                    return;
                 }
-                prettyPrinter.dump(shortenedAppointmentBook);
             }
+        } else {
+            response.getWriter().println("owner does not exist!");
         }
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -81,6 +88,7 @@ public class AppointmentBookServlet extends HttpServlet {
         String endTime = getRequiredParameter(request, response, END_TIME_PARAMETER);
         if (endTime == null) return;
 
+        // If owner exist, put appointment into existing appointment book. Else, create a new appointment book
         AppointmentBook book;
         if (!this.appointmentBooks.containsKey(owner)) {
             book = new AppointmentBook(owner);
@@ -89,10 +97,15 @@ public class AppointmentBookServlet extends HttpServlet {
             book = this.appointmentBooks.get(owner);
         }
 
-        Appointment appt = new Appointment(description, beginTime, endTime);
-        book.addAppointment(appt);
+        try {
+            Appointment appt = new Appointment(description, beginTime, endTime);
+            book.addAppointment(appt);
 
-        response.getWriter().println(appt.toString());
+            response.getWriter().println(appt.toString());
+        } catch (WrongDateTimeFormat e) {
+            response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, "begin time and end time must be in mm/dd/yyyy hh:mm format");
+            return;
+        }
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

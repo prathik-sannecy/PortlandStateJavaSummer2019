@@ -165,8 +165,14 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(out4, out4, containsString(description2 ));
         assertThat(out4, out4, containsString(beginTime2));
         assertThat(out4, out4, containsString(endTime2));
-
-
-
     }
+
+    @Test
+    public void hostWithoutPort() {
+        MainMethodResult result = invokeMain( Project4.class, "-search", "-host", HOSTNAME,  "Bob", "01/01/2018", "01:00", "AM", "01/01/2019", "02:01", "PM" );
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Host name needs a port number"));
+    }
+
+
 }
