@@ -5,11 +5,26 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "edu.pdx.cs410J.prathik.ApptBookAndroid"
-        minSdkVersion 15
+        minSdkVersion 29
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets {
+        main {
+            java {
+                exclude '**/Appointment.java'
+                exclude '**/AppointmentBook.java'
+                exclude '**/AppointmentBookRestClient.java'
+                exclude '**/AppointmentBookServlet.java'
+                exclude '**/Project4.java'
+                exclude '**/TextDumper.java'
+                exclude '**/TextParser.java'
+                exclude '**/PrettyPrinter.java'
+                exclude '**/Messages.java'
+            }
+        }
     }
     buildTypes {
         release {
