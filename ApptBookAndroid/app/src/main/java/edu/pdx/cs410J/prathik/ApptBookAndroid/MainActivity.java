@@ -100,4 +100,13 @@ public class MainActivity extends AppCompatActivity  {
         Intent intent = new Intent(Intent.ACTION_VIEW, null, this, READMe.class);
         startActivity(intent);
     }
+
+    public void GetTime(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetTime.class);
+        startActivity(intent);
+    }
+
+    public void errorDialog(View view) {
+        toast("Error Message");
+    }
 }

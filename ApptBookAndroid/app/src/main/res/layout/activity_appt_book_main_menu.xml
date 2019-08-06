@@ -1,48 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
-
-
-    <Button
-        android:id="@+id/New"
-        android:text="Create New Appointment"
-        android:onClick="READMe"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/Search"
-        android:text="Search for Appointments"
-        android:onClick="READMe"
+        <Button
+            android:id="@+id/New"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="errorDialog"
+            android:text="Create New Appointment" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/New" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/All"
-        android:text="View All Appointments"
-        android:onClick="READMe"
+        <Button
+            android:id="@+id/Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="GetTime"
+            android:text="Search for Appointments"
+            app:layout_constraintBottom_toBottomOf="@+id/New" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/Search" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/Help"
-        android:text="Help"
-        android:onClick="READMe"
+        <Button
+            android:id="@+id/All"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="READMe"
+            android:text="View All Appointments"
+            app:layout_constraintBottom_toBottomOf="@+id/Search" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/Search" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <Button
+            android:id="@+id/Help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="READMe"
+            android:text="Help"
+            app:layout_constraintBottom_toBottomOf="@+id/Search" />
 
+    </LinearLayout>
 
 </LinearLayout>
