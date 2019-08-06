@@ -8,10 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity  {
 
     private static final int DOUBLE_NUMBER = 1;
+    private static final int PRINT_README = 2;
 
     private int count;
     private String messageToDisplayAfterResume;
@@ -27,35 +25,11 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_appt_book_main_menu);
 
-        if (savedInstanceState != null) {
-            count = savedInstanceState.getInt("count");
 
-        } else {
-            count = 0;
-        }
-
-        displayCount();
-
-        ListView listView = findViewById(R.id.listView);
-        String[] daysOfTheWeek = getResources().getStringArray(R.array.days_of_the_week);
-        listView.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, daysOfTheWeek));
-
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                incrementCount();
-                displayCount();
-            }
-        });
     }
 
-    private void displayCount() {
-        String message = "The count is " + count;
-        setMessage(message);
-    }
 
     private void setMessage(CharSequence message) {
         TextView text = findViewById(R.id.text);
@@ -66,7 +40,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
 
-        displayCount();
+
     }
 
     @Override
@@ -76,23 +50,15 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        incrementCount();
-        outState.putInt("count", this.count);
 
         super.onSaveInstanceState(outState);
     }
 
-    private void incrementCount() {
-        this.count++;
-    }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            this.count = savedInstanceState.getInt("count");
-        }
     }
 
     public void displayCurrentTimeInEditText(View view) {
@@ -121,28 +87,17 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == DOUBLE_NUMBER) {
-            if (resultCode == RESULT_OK) {
-                int number = data.getIntExtra("number", 0);
-                doubled = data.getIntExtra("doubled", 0);
-                messageToDisplayAfterResume = String.format("%d doubled is %d", number, doubled);
-                // Changing the state of the widgets here will have no effect because the
-                // activity is "paused"
-            }
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (messageToDisplayAfterResume != null) {
-            setMessage(messageToDisplayAfterResume);
-        }
 
-        if (doubled != null) {
-            EditText number = findViewById(R.id.number);
-            number.setText(String.valueOf(doubled));
-        }
+    }
+
+    public void READMe(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, READMe.class);
+        startActivity(intent);
     }
 }
