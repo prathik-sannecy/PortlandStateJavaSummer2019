@@ -56,7 +56,7 @@ public class GetTime extends AppCompatActivity {
 
 
         //Uri uri = Uri.fromParts("time", String.valueOf(this.am_pm), null);
-        Intent result = new Intent("Doubled Number", null);
+        Intent result = new Intent("Get Time", null);
         result.putExtra("hour", this.hour);
         result.putExtra("min", this.min);
         result.putExtra("am_pm", this.am_pm);

@@ -7,15 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".GetTime">
+    tools:context=".GetDate">
 
 
-    <TimePicker
-        android:id="@+id/timePicker"
+    <DatePicker
+        android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"></TimePicker>
+        android:gravity="center_horizontal"></DatePicker>
 
 
     <RelativeLayout
@@ -30,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:onClick="setTime"
-            android:text="Set Time" />
+            android:onClick="setDate"
+            android:text="Set Date" />
 
         <Button
             android:id="@+id/cancel"

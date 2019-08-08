@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private static final int DOUBLE_NUMBER = 1;
     private static final int GET_TIME = 2;
+    private static final int GET_DATE = 3;
 
     private int count;
     private String messageToDisplayAfterResume;
@@ -87,17 +88,32 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        String hour;
-        String min;
-        String am_pm;
         if (requestCode == GET_TIME) {
             if (resultCode == RESULT_OK) {
+                String hour;
+                String min;
+                String am_pm;
                 hour = data.getStringExtra("hour");
                 min = data.getStringExtra("min");
                 am_pm = data.getStringExtra("am_pm");
                 System.out.println(hour);
                 System.out.println(min);
                 System.out.println(am_pm);
+                // Changing the state of the widgets here will have no effect because the
+                // activity is "paused"
+            }
+        }
+        else if (requestCode == GET_DATE) {
+            if (resultCode == RESULT_OK) {
+                String day;
+                String month;
+                String year;
+                day = data.getStringExtra("day");
+                month = data.getStringExtra("month");
+                year = data.getStringExtra("year");
+                System.out.println(day);
+                System.out.println(month);
+                System.out.println(year);
                 // Changing the state of the widgets here will have no effect because the
                 // activity is "paused"
             }
@@ -119,6 +135,11 @@ public class MainActivity extends AppCompatActivity  {
     public void GetTime(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetTime.class);
         startActivityForResult(intent, GET_TIME);
+    }
+
+    public void GetDate(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetDate.class);
+        startActivityForResult(intent, GET_DATE);
     }
 
     public void errorDialog(View view) {
