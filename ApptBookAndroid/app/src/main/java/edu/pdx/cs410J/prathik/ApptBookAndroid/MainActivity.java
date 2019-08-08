@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity  {
 
     private static final int DOUBLE_NUMBER = 1;
-    private static final int PRINT_README = 2;
+    private static final int GET_TIME = 2;
 
     private int count;
     private String messageToDisplayAfterResume;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appt_book_main_menu);
+            setContentView(R.layout.activity_appt_book_main_menu);
 
 
     }
@@ -87,6 +87,21 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        String hour;
+        String min;
+        String am_pm;
+        if (requestCode == GET_TIME) {
+            if (resultCode == RESULT_OK) {
+                hour = data.getStringExtra("hour");
+                min = data.getStringExtra("min");
+                am_pm = data.getStringExtra("am_pm");
+                System.out.println(hour);
+                System.out.println(min);
+                System.out.println(am_pm);
+                // Changing the state of the widgets here will have no effect because the
+                // activity is "paused"
+            }
+        }
     }
 
     @Override
@@ -103,7 +118,7 @@ public class MainActivity extends AppCompatActivity  {
 
     public void GetTime(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetTime.class);
-        startActivity(intent);
+        startActivityForResult(intent, GET_TIME);
     }
 
     public void errorDialog(View view) {
