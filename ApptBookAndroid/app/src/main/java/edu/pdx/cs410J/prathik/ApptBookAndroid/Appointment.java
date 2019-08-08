@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
-import edu.pdx.cs410J.AbstractAppointment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -11,7 +10,7 @@ import java.util.Date;
 /**
  * This class is represents a <code>Appointment</code>.
  */
-public class Appointment extends AbstractAppointment implements Comparable<Appointment> {
+public class Appointment implements Comparable<Appointment> {
     private String BeginTimeString = null;
     private String EndTimeString = null;
     private String Description = null;
@@ -80,7 +79,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      * Returns a <code>String</code> that describes the end time of this
      * <code>Appointment</code>.
      */
-    @Override
     public String getEndTimeString() {
         return this.EndTimeString;
 
@@ -132,7 +130,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      * Returns a <code>String</code> that describes the begin time of this
      * <code>Appointment</code>.
      */
-    @Override
     public String getBeginTimeString() {
         return this.BeginTimeString;
     }
@@ -183,7 +180,6 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
      * Returns a <code>String</code> that describes this
      * <code>Appointment</code>.
      */
-    @Override
     public String getDescription() {
         return this.Description;
     }
@@ -251,4 +247,10 @@ public class Appointment extends AbstractAppointment implements Comparable<Appoi
             throw new UnsupportedOperationException("Please make sure appointment's end time is after its begin time");
 
     }
+
+    public final String toString() {
+        String var10000 = this.getDescription();
+        return var10000 + " from " + this.getBeginTimeString() + " until " + this.getEndTimeString();
+    }
+
 }

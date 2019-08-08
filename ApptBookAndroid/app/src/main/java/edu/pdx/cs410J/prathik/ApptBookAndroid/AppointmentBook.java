@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
-import edu.pdx.cs410J.AbstractAppointmentBook;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +7,7 @@ import java.util.Collections;
 /**
  * This class is represents a <code>AppointmentBook</code>.
  */
-public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
+public class AppointmentBook{
 
     private String OwnerName = null;
     private ArrayList<Appointment> AppointmentBook = new ArrayList<>();
@@ -26,7 +25,6 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     /**
      * Returns a <code>String</code> that tells the owner of the <code>AppointmentBook</code>
      */
-    @Override
     public String getOwnerName(){
         return this.OwnerName;
     }
@@ -34,7 +32,6 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
     /**
      * Returns a  <code>ArrayList</code> of <code>Appointment</code> in the <code>AppointmentBook</code>
      */
-    @Override
     public ArrayList<Appointment> getAppointments(){
         return this.AppointmentBook;
 
@@ -45,7 +42,6 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
      *
      * @param appointment The appointment to add
      */
-    @Override
     public void addAppointment(Appointment appointment)  {
         this.AppointmentBook.add(appointment);
         Collections.sort(AppointmentBook);
@@ -64,5 +60,10 @@ public class AppointmentBook extends AbstractAppointmentBook<Appointment> {
         this.OwnerName = ownerName;
     }
 
+
+    public final String toString() {
+        String var10000 = this.getOwnerName();
+        return var10000 + "'s appointment book with " + this.getAppointments().size() + " appointments";
+    }
 
 }

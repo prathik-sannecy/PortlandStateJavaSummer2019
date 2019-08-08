@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
-import edu.pdx.cs410J.AppointmentBookDumper;
 
 import java.io.*;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * This class is represents a <code>PrettyPrinter</code>.
  */
-public class PrettyPrinter implements AppointmentBookDumper<AppointmentBook> {
+public class PrettyPrinter {
 
     String textFile = "";
     private PrintWriter printWriter;

@@ -1,11 +1,10 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
-import edu.pdx.cs410J.AppointmentBookParser;
 
 import java.io.File;
 import java.util.Scanner;
 
-public class TextParser implements AppointmentBookParser<AppointmentBook> {
+public class TextParser {
 
     String textFile = "";
 

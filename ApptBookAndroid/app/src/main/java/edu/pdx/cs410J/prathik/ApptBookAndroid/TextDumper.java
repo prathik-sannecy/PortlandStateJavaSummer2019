@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
-import edu.pdx.cs410J.AppointmentBookDumper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +7,7 @@ import java.io.FileWriter;
 /**
  * This class is represents a <code>TextDumper</code>.
  */
-public class TextDumper implements AppointmentBookDumper<AppointmentBook> {
+public class TextDumper {
 
     String textFile = "";
 
