@@ -1,4 +1,5 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
 
 public class CreateAppointment extends AppCompatActivity {
     private static final int GET_BEGIN_TIME = 1;
@@ -59,10 +62,27 @@ public class CreateAppointment extends AppCompatActivity {
         String begin = this.beginMonth + "/" + this.beginDay + "/" + this.beginYear + " " + this.beginHour + ":" + this.beginMin + " " + this.beginAm_pm;
         String end = this.endMonth + "/" + this.endDay + "/" + this.endYear + " " + this.endHour + ":" + this.endMin + " " + this.endAm_pm;
 
+
+        Appointment appointment;
+
         try{
-            Appointment appointment = new Appointment(descriptionAsString, begin, end);
-        } catch (WrongDateTimeFormat e){
-            toast(e.getMessage());
+            appointment = new Appointment(descriptionAsString, begin, end);
+
+
+
+            textFile(this, ownerAsString + ".txt", ownerAsString, appointment);
+
+            Intent result = new Intent("Added Appointment", null);
+            setResult(RESULT_OK, result);
+
+            this.finish();
+
+        } catch (WrongDateTimeFormat w){
+            toast(w.getMessage());
+        } catch (UnsupportedOperationException u){
+            toast(u.getMessage());
+        } catch (CorruptedFile c){
+            toast(c.getMessage());
         }
 
 
@@ -123,6 +143,38 @@ public class CreateAppointment extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    /**
+     * Loads a pre-existing (if it exists) <code>Appointmentbook</code> from <code>textFile</code>,
+     * adds the new <code>Appointment</code> to it, and saves it back.
+     *
+     * Returns back the new appointment book with all the appointments
+     *
+     * @param textFile The file to load the appointmentbook, where to resave it
+     * @param owner The owner of the appointmentbook
+     * @param appointment The new appointment to add to the appointmentbook
+     */
+    private  AppointmentBook textFile(Context context, String textFile, String owner, Appointment appointment){
+        AppointmentBook appointmentbook;
+
+        TextParser textParser = new TextParser(textFile);
+        appointmentbook = textParser.parse(context);
+
+        // No owner means that the appointbook file was nonexisting - must create new one
+        if(appointmentbook == null) {
+            appointmentbook = new AppointmentBook(owner);
+        }
+        else if(!appointmentbook.getOwnerName().equals(owner)){
+            System.err.println("Owner mismatch between new appointment and existing appointment book!");
+            System.exit(1);
+        }
+        appointmentbook.addAppointment(appointment);
+
+        TextDumper textDumper = new TextDumper(textFile);
+        textDumper.dump(context, appointmentbook);
+
+        return appointmentbook;
     }
 
     private void toast(String message) {

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -126,7 +127,11 @@ public class MainActivity extends AppCompatActivity  {
         super.onResume();
 
 
+
+
     }
+
+
 
     public void READMe(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, null, this, READMe.class);

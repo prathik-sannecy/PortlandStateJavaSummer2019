@@ -1,6 +1,8 @@
 package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
 
+import android.content.Context;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class TextParser {
         super();
 
         if (!CheckValidFileName(textFile))
-            throw new InvalidFileName("Please provide a valid file name");
+            throw new CorruptedFile("Please provide a valid file name");
 
 
         this.textFile = textFile;
@@ -35,11 +37,12 @@ public class TextParser {
     /**
      * Loads a (valid) file into an <code>AppointmentBook</code>
      */
-    public AppointmentBook parse(){
+    public AppointmentBook parse(Context context){
         if (!CheckValidFileName(this.textFile))
-            throw new InvalidFileName("Please provide a valid file name using SetFile method");
+            throw new CorruptedFile("Please provide a valid file name using SetFile method");
 
-        File file = new File(this.textFile);
+
+        File file = new File(context.getApplicationContext().getFilesDir(), this.textFile);
 
         if(!file.isFile())
             return null;

@@ -190,7 +190,7 @@ public class Appointment implements Comparable<Appointment> {
      * @param description The description of the appointment
      */
     private void setDescription(String description) {
-        if ((description == null) || (description == ""))
+        if ((description == null) || (description.equals("")))
             throw new WrongDateTimeFormat("Please enter a description");
 
         this.Description = description;

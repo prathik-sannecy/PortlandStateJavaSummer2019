@@ -3,6 +3,11 @@ package edu.pdx.cs410J.prathik.ApptBookAndroid;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+
+import android.content.Context;
 
 /**
  * This class is represents a <code>TextDumper</code>.
@@ -20,7 +25,7 @@ public class TextDumper {
         super();
 
         if (!CheckValidFileName(textFile))
-            throw new InvalidFileName("Please provide a valid file name");
+            throw new CorruptedFile("Please provide a valid file name");
 
         this.textFile = textFile;
     }
@@ -39,11 +44,13 @@ public class TextDumper {
      *
      * @param appointmentBook AppointmentBook that gets dumped into user specified file
      */
-    public void dump(AppointmentBook appointmentBook) {
+    public void dump(Context context, AppointmentBook appointmentBook) {
         if (!CheckValidFileName(this.textFile))
-            throw new InvalidFileName("Please provide a valid file name using SetFile method");
-        
-        File f = new File(this.textFile);
+            throw new CorruptedFile("Please provide a valid file name using SetFile method");
+
+
+
+        File f = new File(context.getApplicationContext().getFilesDir(), this.textFile);
         // If textFiles exists, delete and then recreate it
         if (f.isFile()) {
             f.delete();
@@ -52,15 +59,16 @@ public class TextDumper {
             f.createNewFile();
 
 
-            FileWriter fw = new FileWriter(textFile);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(this.textFile, Context.MODE_PRIVATE));
 
-            fw.write(appointmentBook.getOwnerName() + "\n");
+
+            outputStreamWriter.write(appointmentBook.getOwnerName() + "\n");
             for (Appointment appointment : appointmentBook.getAppointments())
-                fw.write(appointment.getDescription() + "\t" + appointment.getBeginTimeString() + "\t" + appointment.getEndTimeString() + "\n");
+                outputStreamWriter.write(appointment.getDescription() + "\t" + appointment.getBeginTimeString() + "\t" + appointment.getEndTimeString() + "\n");
 
-            fw.close();
+            outputStreamWriter.close();
         } catch (Exception e) {
-            throw new InvalidFileName("Please provide a valid file name using SetFile method");
+            throw new CorruptedFile("Please provide a valid file name using SetFile method");
         }
     }
 }
