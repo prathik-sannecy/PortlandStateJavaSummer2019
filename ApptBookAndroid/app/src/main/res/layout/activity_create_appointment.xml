@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".CreateAppointment">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Appointment"
+        android:textSize="30sp" />
+
+
+    <EditText
+        android:id="@+id/ownerName"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="owner"
+        android:maxWidth="100dip"
+        android:maxLength="60"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:hint="appointment description"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/beginTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getBeginTime"
+            android:text="Begin Time" />
+
+        <Button
+            android:id="@+id/beginDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getBeginDate"
+            android:text="Begin Date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/endTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getEndTime"
+        android:text="End Time" />
+
+    <Button
+        android:id="@+id/endDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getEndDate"
+        android:text="End Date" />
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="createAppointment"
+        android:text="Create"
+        android:textSize="20sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/goBackHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:onClick="goBackHelp"
+            android:text="Main Menu" />
+    </LinearLayout>
+
+
+</LinearLayout>

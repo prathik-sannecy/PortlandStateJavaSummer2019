@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity  {
     private static final int DOUBLE_NUMBER = 1;
     private static final int GET_TIME = 2;
     private static final int GET_DATE = 3;
+    private static final int CREATE = 4;
 
     private int count;
     private String messageToDisplayAfterResume;
@@ -144,5 +145,10 @@ public class MainActivity extends AppCompatActivity  {
 
     public void errorDialog(View view) {
         toast("Error Message");
+    }
+
+    public void createNewAppointment(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, CreateAppointment.class);
+        startActivityForResult(intent, CREATE);
     }
 }

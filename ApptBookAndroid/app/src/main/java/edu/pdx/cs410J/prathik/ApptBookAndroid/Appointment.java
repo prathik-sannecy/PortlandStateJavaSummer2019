@@ -116,7 +116,7 @@ public class Appointment implements Comparable<Appointment> {
         }
 
         if (!validDateTimeFormat)
-            throw new WrongDateTimeFormat("Please enter end time date in correct format of mm/dd/yyyy hh:mm AM/PM");
+            throw new WrongDateTimeFormat("Enter end time and date");
 
         // Set the endTime in Date Format
         setEndTime(endTime, format);
@@ -166,7 +166,7 @@ public class Appointment implements Comparable<Appointment> {
         }
 
         if (!validDateTimeFormat)
-            throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm AM/PM!");
+            throw new WrongDateTimeFormat("Enter begin time and date");
 
         // Set the endTime in Date Format
         setBeginTime(beginTime, format);
@@ -191,7 +191,7 @@ public class Appointment implements Comparable<Appointment> {
      */
     private void setDescription(String description) {
         if ((description == null) || (description == ""))
-            throw new WrongDescription("Please enter a description");
+            throw new WrongDateTimeFormat("Please enter a description");
 
         this.Description = description;
     }
@@ -208,7 +208,7 @@ public class Appointment implements Comparable<Appointment> {
         } catch (ParseException e) {
             return false;
         } catch (NullPointerException e) {
-            throw new WrongDateTimeFormat("Please enter begin time date in correct format of mm/dd/yyyy hh:mm AM/PM!");
+            throw new WrongDateTimeFormat("Enter begin time and date");
         }
 
         return true;
@@ -244,7 +244,7 @@ public class Appointment implements Comparable<Appointment> {
      */
     private void checkDateOrder() {
         if (!(this.EndTime.after(this.BeginTime)))
-            throw new UnsupportedOperationException("Please make sure appointment's end time is after its begin time");
+            throw new WrongDateTimeFormat("Please make sure appointment's end time is after its begin time");
 
     }
 
