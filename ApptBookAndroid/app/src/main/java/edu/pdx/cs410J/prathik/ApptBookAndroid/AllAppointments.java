@@ -15,10 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 
 public class AllAppointments extends AppCompatActivity {
-    private static final int GET_BEGIN_TIME = 1;
-    private static final int GET_END_TIME = 2;
-    private static final int GET_BEGIN_DATE = 3;
-    private static final int GET_END_DATE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,29 +27,6 @@ public class AllAppointments extends AppCompatActivity {
         this.finish();
     }
 
-    public void getBeginTime(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetTime.class);
-        startActivityForResult(intent, GET_BEGIN_TIME);
-    }
-
-    public void getEndTime(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetTime.class);
-        startActivityForResult(intent, GET_END_TIME);
-
-    }
-
-
-    public void getBeginDate(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetDate.class);
-        startActivityForResult(intent, GET_BEGIN_DATE);
-
-    }
-
-    public void getEndDate(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, null, this, GetDate.class);
-        startActivityForResult(intent, GET_END_DATE);
-
-    }
 
 
 
@@ -77,10 +50,6 @@ public class AllAppointments extends AppCompatActivity {
                 TextParser textParser = new TextParser(textFile);
 
                 AppointmentBook appointmentBook = textParser.parse(this);
-
-
-
-
 
 
                 TextView ownerAppointmentsText = findViewById(R.id.ownerAppointments);
