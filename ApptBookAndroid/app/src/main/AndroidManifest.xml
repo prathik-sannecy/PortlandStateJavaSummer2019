@@ -14,6 +14,7 @@
         <activity android:name=".GetTime"></activity>
         <activity android:name=".GetDate"></activity>
         <activity android:name=".CreateAppointment"></activity>
+        <activity android:name=".SearchAppointments"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

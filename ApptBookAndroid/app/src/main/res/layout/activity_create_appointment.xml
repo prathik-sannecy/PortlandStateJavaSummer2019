@@ -32,7 +32,7 @@
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="appointment description"
         android:paddingLeft="20dp"
@@ -66,22 +66,23 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/endTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="getEndTime"
-        android:text="End Time" />
+        <Button
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getEndTime"
+            android:text="End Time" />
 
-    <Button
-        android:id="@+id/endDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="getEndDate"
-        android:text="End Date" />
+        <Button
+            android:id="@+id/endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getEndDate"
+            android:text="End Date" />
 
 
     </LinearLayout>
+
     <Button
         android:id="@+id/create"
         android:layout_width="wrap_content"

@@ -17,7 +17,6 @@ android {
                 exclude '**/AppointmentBookRestClient.java'
                 exclude '**/AppointmentBookServlet.java'
                 exclude '**/Project4.java'
-                exclude '**/PrettyPrinter.java'
                 exclude '**/Messages.java'
             }
         }
