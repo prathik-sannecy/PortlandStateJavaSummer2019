@@ -14,9 +14,6 @@ android {
     sourceSets {
         main {
             java {
-                exclude '**/AppointmentBookRestClient.java'
-                exclude '**/AppointmentBookServlet.java'
-                exclude '**/Project4.java'
                 exclude '**/Messages.java'
             }
         }

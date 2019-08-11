@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".READMe">
+    tools:context=".AllAppointments">
 
 
     <TextView
-        android:id="@+id/HelpTitle"
+        android:id="@+id/AllTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="All Appointments"
@@ -33,37 +33,33 @@
         android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="goBackHelp"
+        android:onClick="getAppointments"
         android:text="Search" />
 
 
     <TextView
-        android:id="@+id/owner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/ownerAppointments"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
         android:paddingTop="10dp"
-        android:text="Twice Number"
-        android:textSize="15sp"
-        />
+        android:textSize="15sp"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_weight="1"
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/ownerAppointmentBook"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Appointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\nAppointment1 Duration 60 minutes: Eating from 95/29/3333 23:45 PM to Eating from 95/29/3333 23:45 PM\n\n"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

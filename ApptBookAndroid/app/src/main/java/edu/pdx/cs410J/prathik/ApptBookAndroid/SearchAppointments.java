@@ -112,36 +112,6 @@ public class SearchAppointments extends AppCompatActivity {
         }
     }
 
-    /**
-     * Loads a pre-existing (if it exists) <code>Appointmentbook</code> from <code>textFile</code>,
-     * adds the new <code>Appointment</code> to it, and saves it back.
-     * <p>
-     * Returns back the new appointment book with all the appointments
-     *
-     * @param textFile    The file to load the appointmentbook, where to resave it
-     * @param owner       The owner of the appointmentbook
-     * @param appointment The new appointment to add to the appointmentbook
-     */
-    private AppointmentBook textFile(Context context, String textFile, String owner, Appointment appointment) {
-        AppointmentBook appointmentbook;
-
-        TextParser textParser = new TextParser(textFile);
-        appointmentbook = textParser.parse(context);
-
-        // No owner means that the appointbook file was nonexisting - must create new one
-        if (appointmentbook == null) {
-            appointmentbook = new AppointmentBook(owner);
-        } else if (!appointmentbook.getOwnerName().equals(owner)) {
-            System.err.println("Owner mismatch between new appointment and existing appointment book!");
-            System.exit(1);
-        }
-        appointmentbook.addAppointment(appointment);
-
-        TextDumper textDumper = new TextDumper(textFile);
-        textDumper.dump(context, appointmentbook);
-
-        return appointmentbook;
-    }
 
     private void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -170,8 +140,6 @@ public class SearchAppointments extends AppCompatActivity {
                 AppointmentBook shortenedAppointmentBook = new AppointmentBook(ownerAsString);
 
 
-
-
                 for (Appointment appointment : appointmentBook.getAppointments()) {
                     if (appointment.getBeginTime().compareTo(appt.getBeginTime()) >= 0 && appt.getEndTime().compareTo(appointment.getEndTime()) >= 0) {
                         shortenedAppointmentBook.addAppointment(appointment);
@@ -186,14 +154,13 @@ public class SearchAppointments extends AppCompatActivity {
                 PrettyPrinter prettyPrinter = new PrettyPrinter(appointmentsText);
                 prettyPrinter.dump(shortenedAppointmentBook);
 
-            }catch (WrongDateTimeFormat w){
+            } catch (WrongDateTimeFormat w) {
                 toast(w.getMessage());
-            } catch (UnsupportedOperationException u){
+            } catch (UnsupportedOperationException u) {
                 toast(u.getMessage());
-            } catch (CorruptedFile c){
+            } catch (CorruptedFile c) {
                 toast(c.getMessage());
             }
-
 
 
         } else {
